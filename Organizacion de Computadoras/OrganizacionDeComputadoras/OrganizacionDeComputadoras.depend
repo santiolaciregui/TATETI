@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1567340015 source:c:\users\santi\documents\codeblocks\organizacion de computadoras\organizaciondecomputadoras\tpa.c
+	<stdio.h>
+
+1567605534 source:c:\users\santi\documents\codeblocks\organizacion de computadoras\organizaciondecomputadoras\tpb.c
+	<stdio.h>
+	<stdlib.h>
+
+1566964805 source:c:\users\santi\downloads\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
