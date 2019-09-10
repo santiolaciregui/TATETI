@@ -34,6 +34,7 @@
 		<Unit filename="ListaSimpleCentinela.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="TDAArbol.h" />
 		<Unit filename="TDALista.h" />
 		<Extensions>
 			<code_completion />
