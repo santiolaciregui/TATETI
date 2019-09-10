@@ -31,9 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="TDALista.c">
+		<Unit filename="ListaSimpleCentinela.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="TDALista.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
