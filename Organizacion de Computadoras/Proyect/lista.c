@@ -38,14 +38,19 @@ void l_destruir(tLista * l, void (*fEliminar)(tElemento));
  Recupera y retorna el elemento en la posici�n P.
  Si P es fin(L), finaliza indicando LST_POSICION_INVALIDA.
 **/
-tElemento l_recuperar(tLista l, tPosicion p);
+tElemento l_recuperar(tLista l, tPosicion p){
+    if(p->siguiente==NULL)
+        exit (LST_POSICION_INVALIDA);
+    return p->siguiente->elemento;
+}
 
 /**
  Recupera y retorna la primera posici�n de L.
  Si L es vac�a, primera(L) = ultima(L) = fin(L).
 **/
-tPosicion l_primera(tLista l);
-
+tPosicion l_primera(tLista l){
+    return l->siguiente;
+}
 /**
  Recupera y retorna la posici�n siguiente a P en L.
  Si P es fin(L), finaliza indicando LST_NO_EXISTE_SIGUIENTE.
@@ -76,10 +81,4 @@ tPosicion l_fin(tLista l);
 int l_longitud(tLista l);
 
 
-int main(){
-    tLista *l;
-    crear_lista(&l);
-    int eme=10;
-    l_insertar(&l, &l.siguiente, eme);
-}
 
