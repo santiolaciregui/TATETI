@@ -80,5 +80,4 @@ extern tPosicion l_fin(tLista l);
  Retorna la longitud actual de la lista.
 **/
 extern int l_longitud(tLista l);
-
 #endif // LISTA_H_INCLUDED
