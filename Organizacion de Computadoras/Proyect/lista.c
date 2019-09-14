@@ -67,18 +67,36 @@ tPosicion l_anterior(tLista l, tPosicion p);
  Recupera y retorna la �ltima posici�n de L.
  Si L es vac�a, primera(L) = ultima(L) = fin(L).
 **/
-tPosicion l_ultima(tLista l);
+tPosicion l_ultima(tLista l){
+    tPosicion aux = (*l).siguiente;
+    while((*aux).siguiente!=NULL)
+        aux=(*aux).siguiente;
+    return aux;
+}
 
  /**
  Recupera y retorna la posici�n fin de L.
  Si L es vac�a, primera(L) = ultima(L) = fin(L).
 **/
-tPosicion l_fin(tLista l);
+tPosicion l_fin(tLista l){
+    tPosicion aux = (*l).siguiente;
+    while(aux!=NULL)
+        aux=(*aux).siguiente;
+    return aux;
+}
 
 /**
  Retorna la longitud actual de la lista.
 **/
-int l_longitud(tLista l);
+int l_longitud(tLista l) {
+    int contador=0;
+    tPosicion aux = (*l).siguiente;
+    while(aux!=NULL) {
+        contador++;
+        aux=(*aux).siguiente;
+    }
+    return contador;
+}
 
 
 
