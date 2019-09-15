@@ -50,7 +50,6 @@ tElemento l_recuperar(tLista l, tPosicion p){
  Si L es vac�a, primera(L) = ultima(L) = fin(L).
 **/
 tPosicion l_primera(tLista l){
-    tPosicion aux = l->siguiente;
     return l->siguiente;
 }
 /**
@@ -108,15 +107,66 @@ int l_longitud(tLista l) {
     return contador;
 }
 
-int main(){
+void eliminar(tPosicion p, tLista l)
+{
+    tPosicion aux;
+    aux= p->siguiente;
+    p->siguiente= aux->siguiente;
+    free(aux->elemento);
+    free(aux);
+}
+
+void generarElementos(tLista l)
+{
+    int *e;
+    int i;
+    srand(time(NULL));
+    i= 0;
+    printf("Elementos generados: ");
+    while(i<80){
+        e= (int*)malloc(sizeof(int));
+        *e= rand()%30;
+        printf("%i ", *e);
+        l_insertar(l, &(*l), e);
+        i++;
+    }
+    printf("\n");
+}
+
+void mostrarElementos(tLista l)
+{
+    tPosicion aux;
+    int i;
+    int *e;
+
+    i=0;
+    aux=l;
+
+    printf("[ ");
+    if(l->siguiente==NULL)
+        printf("La lista l no posee elementos. \n");
+    else
+        while(aux->siguiente!=NULL)
+        {
+            e= aux->siguiente->elemento;
+            printf("%i ", *e);
+            aux= aux->siguiente;
+            i++;
+        }
+    printf(" ]");
+}
+
+int main()
+{
     tLista l;
     crear_lista(&l);
-    tElemento e=(tElemento) 100;
-    l_insertar(l, &(*l), e);
-    printf("%i \n", l_primera(l)->elemento);
-    printf("%i", l_longitud(l));
-    printf("ee");
+    generarElementos(l);
+    printf("\n\n");
 
+    mostrarElementos(l);
+
+    return 0;
 }
+
 
 
