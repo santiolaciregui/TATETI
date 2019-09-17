@@ -28,12 +28,32 @@ void l_insertar(tLista l, tPosicion p, tElemento e){
  Si P es fin(L), finaliza indicando LST_POSICION_INVALIDA.
 **/
 void l_eliminar(tLista l, tPosicion p, void (*fEliminar)(tElemento)){
+    tPosicion aux;
+    if(p->siguiente==NULL)
+        exit(LST_POSICION_INVALIDA);
+    fEliminar(p->siguiente->elemento);
+    aux = p->siguiente;
+    p->siguiente=p->siguiente->siguiente;
+    aux->elemento=NULL;
+    aux->siguiente=NULL;
+    free(aux);
 }
 
 /**
  Destruye la lista L, elimininando cada una de sus celdas. Los elementos almacenados en las celdas son eliminados mediante la funci�n fEliminar parametrizada.
 **/
-void l_destruir(tLista * l, void (*fEliminar)(tElemento));
+void l_destruir(tLista * l, void (*fEliminar)(tElemento)){
+    tPosicion aux;
+    while((*l)->siguiente!=NULL){
+        aux= (*l)->siguiente;
+        fEliminar(aux->elemento);
+        aux->elemento=NULL;
+        (*l)->siguiente=aux->siguiente;
+        aux->siguiente=NULL;
+        free(aux);
+    }
+    free(l);
+}
 
  /**
  Recupera y retorna el elemento en la posici�n P.
@@ -50,7 +70,7 @@ tElemento l_recuperar(tLista l, tPosicion p){
  Si L es vac�a, primera(L) = ultima(L) = fin(L).
 **/
 tPosicion l_primera(tLista l){
-    return l->siguiente;
+    return l;
 }
 /**
  Recupera y retorna la posici�n siguiente a P en L.
@@ -62,24 +82,28 @@ tPosicion l_siguiente(tLista l, tPosicion p){
     return p->siguiente;
 }
 
-
 /**
  Recupera y retorna la posici�n anterior a P en L.
  Si P es primera(L), finaliza indicando LST_NO_EXISTE_ANTERIOR.
 **/
 tPosicion l_anterior(tLista l, tPosicion p){
-    if(p==l->siguiente)
+    tPosicion aux=l;
+    if(p==l)
         exit(LST_NO_EXISTE_ANTERIOR);
-    return p;
+    while(aux!=NULL && aux->siguiente!=p){
+        aux=aux->siguiente;
+    }
+    return aux;
 }
  /**
  Recupera y retorna la �ltima posici�n de L.
  Si L es vac�a, primera(L) = ultima(L) = fin(L).
 **/
 tPosicion l_ultima(tLista l){
-    tPosicion aux = (*l).siguiente;
-    while((*aux).siguiente!=NULL)
-        aux=(*aux).siguiente;
+    tPosicion aux = l;
+    if(aux->siguiente!=NULL)
+        while(aux->siguiente->siguiente!=NULL)
+            aux=aux->siguiente;
     return aux;
 }
 
@@ -88,9 +112,9 @@ tPosicion l_ultima(tLista l){
  Si L es vac�a, primera(L) = ultima(L) = fin(L).
 **/
 tPosicion l_fin(tLista l){
-    tPosicion aux = (*l).siguiente;
-    while(aux!=NULL)
-        aux=(*aux).siguiente;
+    tPosicion aux = l;
+    while(aux->siguiente!=NULL)
+        aux=aux->siguiente;
     return aux;
 }
 
@@ -102,18 +126,9 @@ int l_longitud(tLista l) {
     tPosicion aux = (*l).siguiente;
     while(aux!=NULL) {
         contador++;
-        aux=(*aux).siguiente;
+        aux=aux->siguiente;
     }
     return contador;
-}
-
-void eliminar(tPosicion p, tLista l)
-{
-    tPosicion aux;
-    aux= p->siguiente;
-    p->siguiente= aux->siguiente;
-    free(aux->elemento);
-    free(aux);
 }
 
 void generarElementos(tLista l)
@@ -123,31 +138,27 @@ void generarElementos(tLista l)
     srand(time(NULL));
     i= 0;
     printf("Elementos generados: ");
-    while(i<80){
+    while(i<10){
         e= (int*)malloc(sizeof(int));
         *e= rand()%30;
         printf("%i ", *e);
-        l_insertar(l, &(*l), e);
+        l_insertar(l,l_primera(l), e);
         i++;
     }
     printf("\n");
 }
 
-void mostrarElementos(tLista l)
-{
+void mostrarElementos(tLista l){
     tPosicion aux;
     int i;
     int *e;
-
     i=0;
     aux=l;
-
     printf("[ ");
     if(l->siguiente==NULL)
         printf("La lista l no posee elementos. \n");
     else
-        while(aux->siguiente!=NULL)
-        {
+        while(aux->siguiente!=NULL){
             e= aux->siguiente->elemento;
             printf("%i ", *e);
             aux= aux->siguiente;
@@ -163,8 +174,8 @@ int main()
     generarElementos(l);
     printf("\n\n");
 
+    printf("%i", *((int*)(l_ultima(l))->elemento));
     mostrarElementos(l);
-
     return 0;
 }
 
