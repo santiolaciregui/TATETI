@@ -169,15 +169,101 @@ void mostrarElementos(tLista l){
 
 int main()
 {
-    tLista l;
-    crear_lista(&l);
-    generarElementos(l);
-    printf("\n\n");
-    mostrarElementos(l);
+    tLista lista = NULL;
 
-    l_eliminar(l,l_ultima(l), free);
-    mostrarElementos(l);
-    return 0;
+    int x;
+
+    printf("Elija una opcion:\n");
+    printf("1: Crear lista de enteros\n");
+    printf("3: Imprimir la lista por pantalla\n");
+    printf("2: Insertar entero\n");
+    printf("4: Salir\n");
+    printf("\n");
+    scanf("%i",&x);
+
+     while(x > 0 && x < 7) {
+        if(x == 1) {
+            crear_lista(&lista);
+            printf("\n");
+            printf("LISTA CREADA\n" );
+            printf("\n");
+            printf("Elija una opcion:\n");
+            printf("1: Crear lista de enteros\n");
+            printf("2: Insertar entero\n");
+            printf("3: Imprimir la lista por pantalla\n");
+            printf("4: Salir\n");
+            printf("\n");
+        }
+        if(x == 2) {
+            printf("\n");
+            printf("Ingrese el entero que desee agregar:");
+            printf("\n");
+            int * entero;
+            int auxEntero;
+            scanf("%i",&auxEntero);
+            entero = (int*)malloc(sizeof(int));
+            *entero = auxEntero;
+            l_insertar(lista,l_fin(lista),entero);
+            printf("\n");
+            printf("ELEMENTO INSERTADO.");
+            printf("\n");
+            printf("Elija una opcion:\n");
+            printf("1: Crear lista de enteros\n");
+            printf("2: Insertar entero\n");
+            printf("3: Imprimir la lista por pantalla\n");
+            printf("4: Salir\n");
+            printf("\n");
+
+        }
+        if (x == 3){
+            printf("\n");
+            printf("La lista es: ");
+            tPosicion aux;
+            int i;
+            int *e;
+            i = 0;
+            aux = lista;
+            printf("[ ");
+
+            if(lista -> siguiente == NULL)
+                printf("La lista no posee elementos. \n");
+            else {
+                while(aux -> siguiente != NULL) {
+                    e = aux -> siguiente -> elemento;
+                    printf("%i ", *e);
+                    aux = aux -> siguiente;
+                    i++;
+                }
+            }
+            printf("]");
+            printf("\n");
+            printf("Elija una opcion:\n");
+            printf("1: Crear lista de enteros\n");
+            printf("2: Insertar entero\n");
+            printf("3: Imprimir la lista por pantalla\n");
+            printf("4: Salir\n");
+            printf("\n");
+        }
+        if(x == 4) {
+           l_destruir(&lista,free);
+           printf("LISTA DESTRUIDA");
+           printf("\n");
+           exit(-1);
+        }
+        if(x == 5) {
+            l_eliminar(lista,l_ultima(lista),NULL);
+            printf("\n");
+            printf("ELEMENTO INSERTADO.");
+            printf("\n");
+            printf("Elija una opcion:\n");
+            printf("1: Crear lista de enteros\n");
+            printf("2: Insertar entero\n");
+            printf("3: Imprimir la lista por pantalla\n");
+            printf("4: Salir\n");
+            printf("\n");
+        }
+        scanf("%i",&x);
+    }
 }
 
 
