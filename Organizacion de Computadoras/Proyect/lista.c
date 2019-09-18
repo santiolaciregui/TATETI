@@ -18,9 +18,9 @@ void crear_lista(tLista * l){
 **/
 void l_insertar(tLista l, tPosicion p, tElemento e){
     struct celda *nuevo=(struct celda*)malloc(sizeof(struct celda));
-    (*nuevo).elemento=e;
-    (*nuevo).siguiente=(*p).siguiente;
-    (*p).siguiente=nuevo;
+    nuevo->elemento=e;
+    nuevo->siguiente=p->siguiente;
+    p->siguiente=nuevo;
 }
 
 /**
@@ -135,7 +135,7 @@ void generarElementos(tLista l)
 {
     int *e;
     int i;
-    srand(time(NULL));
+    srand(20);
     i= 0;
     printf("Elementos generados: ");
     while(i<10){
@@ -173,8 +173,9 @@ int main()
     crear_lista(&l);
     generarElementos(l);
     printf("\n\n");
+    mostrarElementos(l);
 
-    printf("%i", *((int*)(l_ultima(l))->elemento));
+    l_eliminar(l,l_ultima(l), free);
     mostrarElementos(l);
     return 0;
 }
