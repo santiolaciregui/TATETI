@@ -123,7 +123,7 @@ tPosicion l_fin(tLista l){
 **/
 int l_longitud(tLista l) {
     int contador=0;
-    tPosicion aux = (*l).siguiente;
+    tPosicion aux = l->siguiente;
     while(aux!=NULL) {
         contador++;
         aux=aux->siguiente;
@@ -155,8 +155,8 @@ void mostrarElementos(tLista l){
     i=0;
     aux=l;
     printf("[ ");
-    if(l->siguiente==NULL)
-        printf("La lista l no posee elementos. \n");
+    if(l->siguiente==NULL )
+        printf("La lista l no posee elementos.");
     else
         while(aux->siguiente!=NULL){
             e= aux->siguiente->elemento;
@@ -175,13 +175,12 @@ int main()
 
     printf("Elija una opcion:\n");
     printf("1: Crear lista de enteros\n");
-    printf("3: Imprimir la lista por pantalla\n");
-    printf("2: Insertar entero\n");
-    printf("4: Salir\n");
+    printf("5: Salir\n");
     printf("\n");
+    printf("OPCION: ");
     scanf("%i",&x);
 
-     while(x > 0 && x < 7) {
+     while(x > 0 && x < 9) {
         if(x == 1) {
             crear_lista(&lista);
             printf("\n");
@@ -189,15 +188,16 @@ int main()
             printf("\n");
             printf("Elija una opcion:\n");
             printf("1: Crear lista de enteros\n");
-            printf("2: Insertar entero\n");
-            printf("3: Imprimir la lista por pantalla\n");
-            printf("4: Salir\n");
+            printf("2: Insertar entero al final\n");
+            printf("3: Insertar entero al inicio\n");
+            printf("4: Imprimir la lista por pantalla\n");
+            printf("5: Salir y destruir\n");
             printf("\n");
+            printf("OPCION: ");
         }
         if(x == 2) {
             printf("\n");
             printf("Ingrese el entero que desee agregar:");
-            printf("\n");
             int * entero;
             int auxEntero;
             scanf("%i",&auxEntero);
@@ -205,17 +205,49 @@ int main()
             *entero = auxEntero;
             l_insertar(lista,l_fin(lista),entero);
             printf("\n");
-            printf("ELEMENTO INSERTADO.");
+            printf("ELEMENTO INSERTADO AL FINAL.");
+            printf("\n");
             printf("\n");
             printf("Elija una opcion:\n");
             printf("1: Crear lista de enteros\n");
-            printf("2: Insertar entero\n");
-            printf("3: Imprimir la lista por pantalla\n");
-            printf("4: Salir\n");
+            printf("2: Insertar entero al final\n");
+            printf("3: Insertar entero al inicio\n");
+            printf("4: Imprimir la lista por pantalla\n");
+            printf("5: Salir y destruir\n");
+            printf("6: Eliminar el ultimo entero\n");
+            printf("7: Eliminar el primer entero\n");
+            printf("8: Longitud de la lista\n");
             printf("\n");
+            printf("OPCION: ");
 
         }
-        if (x == 3){
+        if(x == 3) {
+            printf("\n");
+            printf("Ingrese el entero que desee agregar:");
+            int * entero;
+            int auxEntero;
+            scanf("%i",&auxEntero);
+            entero = (int*)malloc(sizeof(int));
+            *entero = auxEntero;
+            l_insertar(lista,l_primera(lista),entero);
+            printf("\n");
+            printf("ELEMENTO INSERTADO AL PRINCIPIO.");
+            printf("\n");
+            printf("\n");
+            printf("Elija una opcion:\n");
+            printf("1: Crear lista de enteros\n");
+            printf("2: Insertar entero al final\n");
+            printf("3: Insertar entero al inicio\n");
+            printf("4: Imprimir la lista por pantalla\n");
+            printf("5: Salir y destruir\n");
+            printf("6: Eliminar el ultimo entero\n");
+            printf("7: Eliminar el primer entero\n");
+            printf("8: Longitud de la lista\n");
+            printf("\n");
+            printf("OPCION: ");
+
+        }
+        if (x == 4){
             printf("\n");
             printf("La lista es: ");
             tPosicion aux;
@@ -237,30 +269,79 @@ int main()
             }
             printf("]");
             printf("\n");
+            printf("\n");
             printf("Elija una opcion:\n");
             printf("1: Crear lista de enteros\n");
-            printf("2: Insertar entero\n");
-            printf("3: Imprimir la lista por pantalla\n");
-            printf("4: Salir\n");
+            printf("2: Insertar entero al final\n");
+            printf("3: Insertar entero al inicio\n");
+            printf("4: Imprimir la lista por pantalla\n");
+            printf("5: Salir y destruir\n");
+            printf("6: Eliminar el ultimo entero\n");
+            printf("7: Eliminar el primer entero\n");
+            printf("8: Longitud de la lista\n");
             printf("\n");
+            printf("OPCION: ");
         }
-        if(x == 4) {
+        if(x == 5) {
            l_destruir(&lista,free);
            printf("LISTA DESTRUIDA");
            printf("\n");
-           exit(-1);
+           printf("\n");
         }
-        if(x == 5) {
-            l_eliminar(lista,l_ultima(lista),NULL);
+        if(x == 6) {
+            l_eliminar(lista,l_ultima(lista),free);
             printf("\n");
-            printf("ELEMENTO INSERTADO.");
+            printf("ULTIMO ELEMENTO ELIMINADO.");
+            printf("\n");
             printf("\n");
             printf("Elija una opcion:\n");
             printf("1: Crear lista de enteros\n");
-            printf("2: Insertar entero\n");
-            printf("3: Imprimir la lista por pantalla\n");
-            printf("4: Salir\n");
+            printf("2: Insertar entero al final\n");
+            printf("3: Insertar entero al inicio\n");
+            printf("4: Imprimir la lista por pantalla\n");
+            printf("5: Salir y destruir\n");
+            printf("6: Eliminar el ultimo entero\n");
+            printf("7: Eliminar el primer entero\n");
+            printf("8: Longitud de la lista\n");
             printf("\n");
+            printf("OPCION: ");
+        }
+        if(x == 7) {
+            l_eliminar(lista,l_primera(lista),free);
+            printf("\n");
+            printf("PRIMER ELEMENTO ELIMINADO.");
+            printf("\n");
+            printf("\n");
+            printf("Elija una opcion:\n");
+            printf("1: Crear lista de enteros\n");
+            printf("2: Insertar entero al final\n");
+            printf("3: Insertar entero al inicio\n");
+            printf("4: Imprimir la lista por pantalla\n");
+            printf("5: Salir y destruir\n");
+            printf("6: Eliminar el ultimo entero\n");
+            printf("7: Eliminar el primer entero\n");
+            printf("8: Longitud de la lista\n");
+
+            printf("\n");
+            printf("OPCION: ");
+        }
+        if(x==8){
+            printf("La longitud de la lista es: ");
+            printf("%i", l_longitud(lista));
+            printf("\n");
+            printf("\n");
+            printf("Elija una opcion:\n");
+            printf("1: Crear lista de enteros\n");
+            printf("2: Insertar entero al final\n");
+            printf("3: Insertar entero al inicio\n");
+            printf("4: Imprimir la lista por pantalla\n");
+            printf("5: Salir y destruir\n");
+            printf("6: Eliminar el ultimo entero\n");
+            printf("7: Eliminar el primer entero\n");
+            printf("8: Longitud de la lista\n");
+
+            printf("\n");
+            printf("OPCION: ");
         }
         scanf("%i",&x);
     }
