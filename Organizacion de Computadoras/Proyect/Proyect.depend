@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1568900443 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\lista.c
+1568900854 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
@@ -12,4 +12,16 @@
 	<stdlib.h>
 
 1568496150 c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\lista.h
+
+1568900634 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\main.c
+	"lista.h"
+	<stdlib.h>
+
+1569602789 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.c
+	"arbol.h"
+	<stdio.h>
+	<stdlib.h>
+
+1569451811 c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.h
+	"lista.h"
 
