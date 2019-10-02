@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 /**
 Inicializa un �rbol vac�o.
 Una referencia al �rbol creado es referenciado en *A.
@@ -17,7 +18,19 @@ Una referencia al �rbol creado es referenciado en *A.
 Crea la ra�z de A.
 Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
 **/
- void crear_raiz(tArbol a, tElemento e);
+ void crear_raiz(tArbol a, tElemento e){
+    if(a->raiz==NULL)
+        exit(ARB_OPERACION_INVALIDA);
+    struct tNodo *nodo= (struct tNodo*)malloc(sizeof(struct nodo));
+    if(nodo==NULL)
+        exit(ARB_ERROR_MEMORIA);
+    tLista lista = NULL;
+    crear_lista(&lista);
+    nodo->elemento=e;
+    nodo->hijos= lista;
+    nodo->padre=NULL;
+    a->raiz=*nodo;
+ }
 
 /**
  Inserta y retorna un nuevo nodo en A.
