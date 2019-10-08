@@ -144,5 +144,21 @@ int l_longitud(tLista l) {
     return contador;
 }
 
+void invertir_lista(tLista l){
+    tPosicion head=l->siguiente;
+    tPosicion actual=head;
+    tPosicion anterior=NULL;
+    tPosicion siguiente=NULL;
+    while(actual!=NULL){
+        siguiente=actual->siguiente;
+        actual->siguiente=anterior;
+        anterior=actual;
+        actual=siguiente;
+    }
+    head= anterior;
+    l->siguiente=head;
+}
+
+
 
 
