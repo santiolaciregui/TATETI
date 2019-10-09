@@ -35,7 +35,7 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
  El nuevo nodo se agrega en A como hijo de NP, hermano izquierdo de NH, y cuyo r�tulo es E.
  Si NH es NULL, el nuevo nodo se agrega como �ltimo hijo de NP.
  Si NH no corresponde a un nodo hijo de NP, finaliza indicando ARB_POSICION_INVALIDA.
- NP direcciona al nodo padre, mientras NH al nodo hermano derecho del nuevo nodo a insertar.
+ NP direcciona al nodo padre, maientras NH al nodo hermano derecho del nuevo nodo a insertar.
 **/
  tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e){
 
@@ -46,18 +46,27 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
     crear_lista(&listaHijos);
     tPosicion puntero;
     int corte=0;
-    puntero=l_primera(np->hijos);
-    printf("hahhaha");
-    while(puntero!=NULL && corte==0){
-        if(puntero->elemento==nh)
-            corte=1;
-        else
-            puntero=l_siguiente(np->hijos, puntero);
+    puntero=l_primera(&(np->hijos));
+    printf("PASO1 ");
+    if(nh!=NULL)
+        while(puntero!=NULL && corte==0){
+                printf("acasi ");
+            if(nh==puntero->elemento) {
+                printf("entre if");
+
+                corte=1;
+                }
+            else {
+                printf("entro else");
+                puntero=l_siguiente(&(np->hijos), puntero);
+    }
     }
     nuevo->elemento=e;
     nuevo->hijos=listaHijos;
     nuevo->padre=np;
-    l_insertar(np->hijos,puntero, nuevo);
+    printf("PASO2 ");
+    l_insertar(&(np->hijos),&puntero, nuevo);
+    printf("  PASO3 ");
     return nuevo;
  }
 

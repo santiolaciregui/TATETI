@@ -20,3 +20,24 @@
 	<stdlib.h>
 	<stdio.h>
 
+1570650236 source:c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\arbol.c
+	"arbol.h"
+	<stdio.h>
+	<stdlib.h>
+
+1570053917 c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\arbol.h
+	"lista.h"
+
+1568496150 c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\lista.h
+
+1570643726 source:c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\lista.c
+	"lista.h"
+	<stdio.h>
+	<stdlib.h>
+
+1570650370 source:c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\main.c
+	"lista.h"
+	"arbol.h"
+	<stdlib.h>
+	<stdio.h>
+
