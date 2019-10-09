@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1570571866 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.c
+1570629188 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
@@ -14,8 +14,9 @@
 	<stdio.h>
 	<stdlib.h>
 
-1570569007 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\main.c
+1570629149 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\main.c
 	"lista.h"
+	"arbol.h"
 	<stdlib.h>
 	<stdio.h>
 

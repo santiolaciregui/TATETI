@@ -1,4 +1,5 @@
 #include "lista.h"
+#include "arbol.h"
 #include <stdlib.h>
 #include <stdio.h>
 void fEliminarEnteros (tElemento e){
@@ -46,34 +47,17 @@ void mostrarlista(tLista lista){
 }
 
 int main(){
-    tLista lista1 = NULL;
-    crear_lista(&lista1);
-    int *e;
-            int i;
-            srand(20);
-            i= 0;
-            while(i<10){
-                e= (int*)malloc(sizeof(int));
-                *e= rand()%30;
-                l_insertar(lista1,l_ultima(lista1), e);
-                i++;
-            }
-    tLista lista2 = NULL;
-    crear_lista(&lista2);
-    int *elem;
-            int j;
-            srand(10);
-            j= 0;
-            while(j<10){
-                elem= (int*)malloc(sizeof(int));
-                *elem= rand()%30;
-                l_insertar(lista2,l_ultima(lista2), elem);
-                j++;
-            }
-    mostrarlista(lista1);
-    mostrarlista(lista2);
-    tLista nueva=sumarPrimerElementoConUltimo(lista1, lista2);
-    mostrarlista(nueva);
+    tArbol arbol=NULL;
+    crear_arbol(&arbol);
+    crear_raiz(arbol, 1);
+    printf("hahhaha");
+    tNodo aux=a_insertar(arbol, arbol->raiz, NULL, 2);
+    printf("sasassa");
+
+    a_insertar(arbol,arbol->raiz, NULL, 3);
+    tNodo aux1=a_insertar(arbol, aux, NULL, 5 );
+    a_insertar(arbol, aux, aux1, 6 );
+
 //    int x;
 //    printf("Elija una opcion:\n");
 //    printf("1: Crear lista de enteros\n");
