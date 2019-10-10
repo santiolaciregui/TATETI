@@ -46,18 +46,42 @@ void mostrarlista(tLista lista){
             printf("\n");
 }
 
+void preorden(tArbol a, tNodo root){
+    tPosicion punteroHijosDeN;
+    tPosicion findeHijosdeN;
+    punteroHijosDeN= l_primera(root->hijos);
+    findeHijosdeN=l_fin(root->hijos);
+    printf("%i \n",*((int*)root->elemento));
+    while(punteroHijosDeN!=findeHijosdeN){
+        punteroHijosDeN=l_siguiente(root->hijos, punteroHijosDeN);
+        preorden(a, punteroHijosDeN->elemento);
+    }
+}
+
 int main(){
-    tArbol arbol=NULL;
+    tArbol arbol;
     crear_arbol(&arbol);
-    crear_raiz(arbol, 1);
-    tNodo aux=a_insertar(arbol,(arbol->raiz), NULL, 2);
-    printf("INSERTAR1 ");
-    tNodo aux1=a_insertar(arbol,aux, NULL, 5 );
-    printf("INSERTAR2 ");
-    a_insertar(arbol,aux, aux1, 3);
-    printf("INSERTAR3 ");
-    a_insertar(arbol, aux, aux1, 6 );
-    printf("INSERTAR4 ");
+    int r=51;
+    crear_raiz(arbol, &r);
+    int r1= 151;
+//    printf("raiz %i \n",*((int*)a_recuperar(arbol,a_raiz(arbol))));
+    tNodo aux=a_insertar(arbol,arbol->raiz, NULL, &r1);
+    printf("INSERTAR1 \n");
+//    printf("%i \n",*((int*)a_recuperar(arbol,aux)));
+//    preorden(arbol, arbol->raiz);
+    tNodo aux1=a_insertar(arbol,aux, NULL, &r );
+    printf("INSERTAR2\n");
+    a_insertar(arbol,aux, aux1, &r1);
+    printf("INSERTAR3 \n");
+    a_insertar(arbol, aux, aux1, &r );
+    printf("INSERTAR4 \n");
+    a_eliminar(arbol,aux,fEliminarEnteros);
+    printf("Elimine");
+    preorden(arbol, arbol->raiz);
+//    printf("%i \n",*((int*)a_recuperar(arbol,aux)));
+    printf("no encontre naranja");
+
+//    a_insertar(arbol, aux, aux1, 33);
 
 //    int x;
 //    printf("Elija una opcion:\n");

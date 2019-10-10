@@ -1,7 +1,7 @@
 #include "arbol.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+void eliminar_nodo(void* e) {}
 /**
 Inicializa un �rbol vac�o.
 Una referencia al �rbol creado es referenciado en *A.
@@ -20,14 +20,13 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
  void crear_raiz(tArbol a, tElemento e){
     if(a->raiz!=NULL)
         exit(ARB_OPERACION_INVALIDA);
-    struct nodo *nodo=(struct nodo*)malloc(sizeof(struct nodo));
+    tNodo nodo= (tNodo)malloc(sizeof(struct nodo));
     if(nodo==NULL || nodo==0)
         exit(ARB_ERROR_MEMORIA);
-    tLista listaHijos=malloc(sizeof(tLista));
-    crear_lista(&listaHijos);
+    crear_lista(&(nodo->hijos));
     nodo->padre=NULL;
     nodo->elemento=e;
-    nodo->hijos=listaHijos;
+    a->raiz = nodo;
 }
 
 /**
@@ -38,22 +37,32 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
  NP direcciona al nodo padre, maientras NH al nodo hermano derecho del nuevo nodo a insertar.
 **/
  tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e){
-    tLista hermanos = &(np->hijos);
-    tNodo nuevo = (tNodo) malloc(sizeof(struct nodo));
+    tLista hermanos;
+    tLista listaHijos;
+    tNodo nuevo;
+    tPosicion puntero;
+    tPosicion finDeHermanos;
+    if(np==NULL)
+        exit(ARB_POSICION_INVALIDA);
+    hermanos = np->hijos;
+    nuevo = (tNodo) malloc(sizeof(struct nodo));
     if ((nuevo == NULL)||(nuevo == 0))
         exit(ARB_ERROR_MEMORIA);
-    tLista listaHijos;
     crear_lista(&listaHijos);
     nuevo->elemento = e;
     nuevo->padre = np;
     nuevo->hijos = listaHijos;
-    tPosicion puntero= l_primera(&hermanos);
-    if(nh!=NULL)
-       while(puntero!=NULL && l_recuperar(&hermanos,&puntero)!=nh)
-                puntero=puntero->siguiente;
-    if(puntero==l_fin(&hermanos))
-        exit(ARB_POSICION_INVALIDA);
-    l_insertar(&hermanos,&puntero,nuevo);
+    puntero= l_primera(hermanos);
+    finDeHermanos=l_fin(hermanos);
+    if(nh!=NULL){
+       while(puntero!=finDeHermanos && l_recuperar(hermanos,puntero)!=nh)
+                puntero=l_siguiente(hermanos,puntero);
+        if(puntero==finDeHermanos)
+            exit(ARB_POSICION_INVALIDA);
+    }
+    else
+        puntero = l_ultima(hermanos);
+    l_insertar(hermanos,puntero,nuevo);
     return nuevo;
  }
 /**
@@ -63,45 +72,81 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
  Si N es la ra�z de A, y a su vez tiene m�s de un hijo, finaliza retornando ARB_OPERACION_INVALIDA.
  Si N no es la ra�z de A y tiene hijos, estos pasan a ser hijos del padre de N, en el mismo orden y a partir de la posici�n que ocupa N en la lista de hijos de su padre.
 **/
- void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)) {
-    if(n==a->raiz)
-        if(n->hijos->siguiente!=NULL)
-            if(n->hijos->siguiente->siguiente==NULL)
-                a->raiz=n->hijos->siguiente;
+  void a_eliminar(tArbol a, tNodo n, void (*fEliminar)(tElemento)) {
+    tLista hijosDeN;
+    tNodo PadreDeN;
+    tLista HermanosDeN;
+    tPosicion punteroHermanos;
+    tPosicion punteroHijos;
+    tPosicion finHermanosN;
+    int corte;
+    hijosDeN= n->hijos;
+        if(n==a->raiz){
+        if(l_longitud(n->hijos)==0)
+            fEliminar(n->elemento);
+        else
+            if(l_longitud(n->hijos)==1){
+                a->raiz=l_primera(n->hijos)->elemento;
+                a->raiz->padre=NULL;
+                fEliminar(n->elemento);
+            }
             else
                 exit(ARB_OPERACION_INVALIDA);
-        else
-            fEliminar(n);
-    else {
-        tNodo PadreDeN = n->padre;
-        tLista HermanosDeN = PadreDeN->hijos;
-        tPosicion punteroHermanos = HermanosDeN->siguiente;
-        while(punteroHermanos!=NULL) {
-            if(punteroHermanos->elemento==n) {
-                tLista HijosDeN = n->hijos;
-                tPosicion PunteroHijos = HijosDeN->siguiente;
-                while(PunteroHijos!=NULL) {
-                    tPosicion punteroAux = punteroHermanos->siguiente->siguiente;
-                    punteroHermanos->siguiente = PunteroHijos;
-                    punteroHermanos =PunteroHijos->siguiente;
-                    PunteroHijos->siguiente = punteroAux;
-                }
-            }
-        }
-
     }
-}
+    else {
+        PadreDeN = n->padre;
+        HermanosDeN = PadreDeN->hijos;
+        punteroHermanos = l_primera(HermanosDeN);
+        punteroHijos = l_ultima(hijosDeN);
+        finHermanosN = l_fin(HermanosDeN);
+        corte=0;
+        while(punteroHermanos!=finHermanosN && l_recuperar(HermanosDeN,punteroHermanos)!=n)
+            punteroHermanos = l_siguiente(HermanosDeN, punteroHermanos);
+        while(corte==0) {
+            l_insertar(HermanosDeN, l_siguiente(HermanosDeN, punteroHermanos),l_recuperar(hijosDeN,punteroHijos));
+            if(punteroHijos==l_primera(hijosDeN))
+                corte=1;
+            else
+                punteroHijos=l_anterior(hijosDeN, punteroHijos);
+            l_eliminar(hijosDeN, punteroHijos, fEliminar);
+        }
+    }
+    n->hijos=NULL;
+    n->padre=NULL;
+    n->elemento=NULL;
+    free(n);
+    n=NULL;
 
+}
 /**
  Destruye el �rbol A, eliminando cada uno de sus nodos.
  Los elementos almacenados en el �rbol son eliminados mediante la funci�n fEliminar parametrizada.
 **/
- void a_destruir(tArbol * a, void (*fEliminar)(tElemento));
+ void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
+    preordenAux(*a,(*a)->raiz, &fEliminar);
+    (*a) = NULL;
+    (*a)->raiz = NULL;
+    free(*a);
+ }
 
+
+ void preordenAux(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
+    tPosicion punteroHijosDeN;
+    tPosicion findeHijosdeN;
+    punteroHijosDeN= l_primera(n->hijos);
+    findeHijosdeN=l_fin(n->hijos);
+    while(punteroHijosDeN!=findeHijosdeN){
+        preordenAux(a, punteroHijosDeN->elemento, fEliminar);
+        punteroHijosDeN=l_siguiente(n->hijos, punteroHijosDeN);
+	}
+	a_eliminar(a, n, fEliminar);
+ }
 /**
 Recupera y retorna el elemento del nodo N.
 */
  tElemento a_recuperar(tArbol a, tNodo n){
+     if(n==NULL)
+        exit(ARB_OPERACION_INVALIDA);
     return n->elemento;
  }
 
@@ -119,25 +164,32 @@ tLista a_hijos(tArbol a, tNodo n){
     return n->hijos;
 }
 
+
 /**
  Inicializa un nuevo �rbol en *SA.
  El nuevo �rbol en *SA se compone de los nodos del sub�rbol de A a partir de N.
  El subarbol de A a partir de N debe ser eliminado de A.
 **/
-// void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
-//     tLista hijosPadreDeN=n->padre->hijos;
-//     tPosicion puntero= l_primera(hijosPadreDeN);
-//     int corte=0;
-//     while(puntero!=NULL && corte==0){
-//        if(puntero->elemento==n){
-//            corte=1;
-//            l_eliminar(hijosPadreDeN, puntero, &fEliminar(tElemento));
-//        }
-//        puntero=l_siguiente(hijosPadreDeN, puntero);
-//     }
-//     // SI NO ENCUENTRO A N EN LA LISTA DE HIJOS DEL PADRE DE N
-//     if(puntero==NULL)
-//        exit(ARB_POSICION_INVALIDA);
-//     n->padre=NULL;
-//     (*sa)->raiz=n;
-// }
+ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
+     tLista hermanosDeN;
+     tPosicion puntero;
+     tPosicion finDeHermanos;
+     int corte;
+     hermanosDeN=n->padre->hijos;
+     puntero= l_primera(hermanosDeN);
+     corte=0;
+     finDeHermanos = l_fin(hermanosDeN);
+     while(puntero!=finDeHermanos && corte==0){
+        if(l_recuperar(hermanosDeN,puntero)==n){
+            corte=1;
+            l_eliminar(hermanosDeN, puntero, eliminar_nodo);
+        }
+        puntero=l_siguiente(hermanosDeN, puntero);
+     }
+     // SI NO ENCUENTRO A N EN LA LISTA DE HIJOS DEL PADRE DE N
+     if(puntero==finDeHermanos)
+        exit(ARB_POSICION_INVALIDA);
+     crear_arbol(sa);
+     n->padre=NULL;
+     crear_raiz(*(sa), n->elemento);
+ }
