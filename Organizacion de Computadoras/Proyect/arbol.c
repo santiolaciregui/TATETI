@@ -138,4 +138,20 @@ tLista a_hijos(tArbol a, tNodo n){
  El nuevo �rbol en *SA se compone de los nodos del sub�rbol de A a partir de N.
  El subarbol de A a partir de N debe ser eliminado de A.
 **/
- void a_sub_arbol(tArbol a, tNodo n, tArbol * sa);
+ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
+     tLista hijosPadreDeN=n->padre->hijos;
+     tPosicion puntero= l_primera(hijosPadreDeN);
+     int corte=0;
+     while(puntero!=NULL && corte==0){
+        if(puntero->elemento==n){
+            corte=1;
+            l_eliminar(hijosPadreDeN, puntero, &fEliminar(tElemento));
+        }
+        puntero=l_siguiente(hijosPadreDeN, puntero);
+     }
+     // SI NO ENCUENTRO A N EN LA LISTA DE HIJOS DEL PADRE DE N
+     if(puntero==NULL)
+        exit(ARB_POSICION_INVALIDA);
+     n->padre=NULL;
+     (*sa)->raiz=n;
+ }
