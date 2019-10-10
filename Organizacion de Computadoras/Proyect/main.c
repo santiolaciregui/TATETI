@@ -50,14 +50,13 @@ int main(){
     tArbol arbol=NULL;
     crear_arbol(&arbol);
     crear_raiz(arbol, 1);
-    tNodo aux=a_insertar(arbol, a_raiz(arbol), NULL, 2);
+    tNodo aux=a_insertar(arbol,(arbol->raiz), NULL, 2);
     printf("INSERTAR1 ");
-
     tNodo aux1=a_insertar(arbol,aux, NULL, 5 );
     printf("INSERTAR2 ");
     a_insertar(arbol,aux, aux1, 3);
     printf("INSERTAR3 ");
-    a_insertar(arbol, &aux, &aux1, 6 );
+    a_insertar(arbol, aux, aux1, 6 );
     printf("INSERTAR4 ");
 
 //    int x;

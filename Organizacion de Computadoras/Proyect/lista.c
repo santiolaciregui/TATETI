@@ -9,7 +9,7 @@ void fEliminarEnteros (tElemento e);
  Una referencia a la lista creada es referenciada en *L.
 **/
 void crear_lista(tLista * l){
-    (*l)=(struct celda*)malloc(sizeof(struct celda));
+    (*l)=malloc(sizeof(tLista));
     if((*l)==NULL)
         exit(LST_ERROR_MEMORIA);
     (*l)->elemento=NULL;
