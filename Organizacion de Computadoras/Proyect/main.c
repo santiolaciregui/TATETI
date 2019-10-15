@@ -59,24 +59,23 @@ void preorden(tArbol a, tNodo root){
 int main(){
     tArbol arbol;
     tArbol sa;
-    crear_arbol(&sa);
+//    crear_arbol(&sa);
     crear_arbol(&arbol);
-    int r=51;
-    crear_raiz(arbol, &r);
-    int r1= 151;
-    int r2= 14;
-    int r3= 40;
-    int r4= 33;
+    int r1=1;
+    int r2= 2;
+    int r3= 3;
+    int r4= 4;
+    int r5= 5;
+    crear_raiz(arbol, &r1);
+
 //    printf("raiz %i \n",*((int*)a_recuperar(arbol,a_raiz(arbol))));
-    tNodo aux=a_insertar(arbol,arbol->raiz, NULL, &r1);
+    tNodo aux=a_insertar(arbol,arbol->raiz, NULL, &r2);
     printf("INSERTAR1 \n");
-//    printf("%i \n",*((int*)a_recuperar(arbol,aux)));
-//    preorden(arbol, arbol->raiz);
-    tNodo aux1=a_insertar(arbol,aux, NULL, &r );
+    tNodo aux1=a_insertar(arbol,aux, NULL, &r3);
     printf("INSERTAR2\n");
-    a_insertar(arbol,aux, aux1, &r2);
+    a_insertar(arbol,aux, aux1, &r4);
     printf("INSERTAR3 \n");
-    a_insertar(arbol, aux, aux1, &r3 );
+    a_insertar(arbol, aux, NULL, &r5 );
     printf("INSERTAR4 \n");
 
     preorden(arbol, arbol->raiz);
@@ -86,13 +85,20 @@ int main(){
 //    printf("Eliminar \n");
 //    a_eliminar(arbol,aux,&fEliminarEnteros);
 //    preorden(arbol, arbol->raiz);
+//    printf("Eliminar \n");
+//    a_eliminar(arbol,aux,&fEliminarEnteros);
+//    preorden(arbol, arbol->raiz);
 
 //    a_destruir(&arbol,&fEliminarEnteros);
-//    a_sub_arbol(arbol,aux,&sa);
-        printf("paso acaa");
-        a_destruir(&arbol, &fEliminarEnteros);
-//    a_insertar(arbol, arbol->raiz, aux1, &r);
 //    preorden(arbol, arbol->raiz);
+    printf("\n aguuuuu ");
+    a_sub_arbol(arbol,arbol->raiz,&sa);
+        printf("paso acaa \n");
+//        a_destruir(&arbol, &fEliminarEnteros);
+//        printf("borro \n");
+
+//    a_insertar(arbol, arbol->raiz, aux1, &r);
+    preorden(sa, sa->raiz);
 
 //    int x;
 //    printf("Elija una opcion:\n");

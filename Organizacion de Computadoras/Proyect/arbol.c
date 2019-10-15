@@ -39,7 +39,6 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
 **/
  tNodo a_insertar(tArbol a, tNodo np, tNodo nh, tElemento e){
     tLista hermanos;
-    tLista listaHijos;
     tNodo nuevo;
     tPosicion puntero;
     tPosicion finDeHermanos;
@@ -49,10 +48,9 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
     nuevo = (tNodo) malloc(sizeof(struct nodo));
     if ((nuevo == NULL)||(nuevo == 0))
         exit(ARB_ERROR_MEMORIA);
-    crear_lista(&listaHijos);
+    crear_lista(&(nuevo->hijos));
     nuevo->elemento = e;
     nuevo->padre = np;
-    nuevo->hijos = listaHijos;
     puntero= l_primera(hermanos);
     finDeHermanos=l_fin(hermanos);
     if(nh!=NULL){
@@ -62,7 +60,7 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
             exit(ARB_POSICION_INVALIDA);
     }
     else
-        puntero = l_ultima(hermanos);
+        puntero = l_fin(hermanos);
     l_insertar(hermanos,puntero,nuevo);
     return nuevo;
  }
@@ -81,7 +79,7 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
     tPosicion punteroHermanos;
     tPosicion punteroHijos;
     tPosicion finHermanosN;
-    int corte;
+    tPosicion finHijosdeN;
     int longitudHijos;
     hijosDeN= n->hijos;
     if(n==a->raiz){
@@ -89,42 +87,43 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
         if(longitudHijos>1)
             exit(ARB_OPERACION_INVALIDA);
         else
-            if(longitudHijos==1)
+            if(longitudHijos==1){
                 a->raiz=(tNodo)l_recuperar(hijosDeN,l_primera(hijosDeN));
+                a->raiz->padre=NULL;
+            }
     }
     else {
         PadreDeN = n->padre;
         HermanosDeN = PadreDeN->hijos;
         punteroHermanos = l_primera(HermanosDeN);
-        punteroHijos = l_ultima(hijosDeN);
         finHermanosN = l_fin(HermanosDeN);
-        corte=0;
+        punteroHijos = l_primera(hijosDeN);
+        finHijosdeN=l_fin(hijosDeN);
         while(punteroHermanos!=finHermanosN && l_recuperar(HermanosDeN,punteroHermanos)!=n)
             punteroHermanos = l_siguiente(HermanosDeN, punteroHermanos);
-        while(corte==0) {
-            if(punteroHijos==l_primera(hijosDeN))
-                corte=1;
-            else{
-                l_insertar(HermanosDeN, l_siguiente(HermanosDeN, punteroHermanos),l_recuperar(hijosDeN,punteroHijos));
-                punteroHijos=l_anterior(hijosDeN, punteroHijos);
-            }
+        if(punteroHermanos==finHermanosN)
+            exit(ARB_POSICION_INVALIDA);
+        while(punteroHijos!=finHijosdeN) {
+            tNodo nuevoHijo = l_recuperar(hijosDeN,punteroHijos);
+            nuevoHijo->padre = PadreDeN;
+            l_insertar(HermanosDeN, punteroHermanos,nuevoHijo);
+            punteroHijos=l_siguiente(hijosDeN, punteroHijos);
+            punteroHermanos = l_siguiente(HermanosDeN, punteroHermanos);
         }
         l_eliminar(HermanosDeN, punteroHermanos, eliminar_nodo);
     }
     fEliminar(n->elemento);
     l_destruir(&hijosDeN,eliminar_nodo);
-//    n->hijos=NULL;
+    n->hijos=NULL;
     n->padre=NULL;
-//    n->elemento=NULL;
+    n->elemento=NULL;
     free(n);
-//    n=NULL;
+    n=NULL;
 }
 
 void preordenAux(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
-    tPosicion punteroHijosDeN;
-    tPosicion findeHijosdeN;
-    punteroHijosDeN= l_primera(n->hijos);
-    findeHijosdeN=l_fin(n->hijos);
+    tPosicion punteroHijosDeN = l_primera(n->hijos);
+    tPosicion findeHijosdeN =l_fin(n->hijos);
     while(punteroHijosDeN!=findeHijosdeN){
         preordenAux(a, l_recuperar(n->hijos, punteroHijosDeN), fEliminar);
         punteroHijosDeN=l_siguiente(n->hijos, punteroHijosDeN);
@@ -172,21 +171,17 @@ tLista a_hijos(tArbol a, tNodo n){
 **/
 void preorder_cortar(tArbol a, tNodo n, tNodo d) {
     tPosicion puntero = l_primera(n->hijos);
-    while (puntero != l_fin(n->hijos))
-    {
-        printf("aaa ");
+    while (puntero != l_fin(n->hijos)){
         tNodo nuevo = (tNodo) malloc(sizeof(struct nodo));
-    if ((nuevo == 0) || (nuevo == NULL))
-        exit(ARB_ERROR_MEMORIA);
-    crear_lista(&(nuevo->hijos));
-    nuevo->elemento = l_recuperar(n->hijos, puntero);
-    nuevo->padre = d;
+        if ((nuevo == 0) || (nuevo == NULL))
+            exit(ARB_ERROR_MEMORIA);
+        crear_lista(&(nuevo->hijos));
+        tNodo aux=l_recuperar(n->hijos, puntero);
+        nuevo->elemento = aux->elemento;
+        nuevo->padre = d;
         l_insertar(d->hijos, l_ultima(d->hijos), nuevo);
-        printf("bbb ");
         preorder_cortar(a, l_recuperar(n->hijos, puntero), l_recuperar(d->hijos, l_ultima(d->hijos)));
-        printf("ccc ");
         puntero = l_siguiente(n->hijos, puntero);
-        printf("ddd ");
     }
     a_eliminar(a, n, eliminar_nodo);
 }
