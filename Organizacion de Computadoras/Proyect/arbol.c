@@ -2,35 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 void eliminar_nodo(void* e) {}
-void preordenAux(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
-    tPosicion punteroHijosDeN;
-    tPosicion findeHijosdeN;
-    punteroHijosDeN= l_primera(n->hijos);
-    findeHijosdeN=l_fin(n->hijos);
-    while(punteroHijosDeN!=findeHijosdeN){
-        preordenAux(a, l_recuperar(n->hijos, punteroHijosDeN), fEliminar);
-        punteroHijosDeN=l_siguiente(n->hijos, punteroHijosDeN);
-	}
-	a_eliminar(a, n, fEliminar);
- }
-// void preorder_cortar(tArbol a, tNodo n, tNodo d)
-//{
-//    tPosicion puntero = l_primera(n->hijos);
-//    tPosicion finHijos = l_fin(n->hijos);
-//    while (puntero != finHijos) {
-//        tNodo nuevo = (tNodo) malloc(sizeof(struct nodo));
-//        if((nuevo==0) || nuevo==NULL)
-//            exit(ARB_ERROR_MEMORIA);
-//        nuevo->elemento = l_recuperar(n->hijos,puntero);
-//        nuevo->padre = d;
-//        crear_lista(&(nuevo->hijos));
-//
-//        l_insertar(d->hijos, l_ultima(d->hijos), nuevo);
-//        preorder_cortar(a, l_recuperar(n->hijos, puntero), l_recuperar(d->hijos, l_ultima(d->hijos)));
-//        puntero = l_siguiente(n->hijos, puntero);
-//    }
-//    a_eliminar(a, n, eliminar_nodo);
-//}
+
 /**
 Inicializa un �rbol vac�o.
 Una referencia al �rbol creado es referenciado en *A.
@@ -94,6 +66,7 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
     l_insertar(hermanos,puntero,nuevo);
     return nuevo;
  }
+
 /**
  Elimina el nodo N de A.
  El elemento almacenado en el �rbol es eliminado mediante la funci�n fEliminar parametrizada.
@@ -145,6 +118,18 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
     free(n);
 //    n=NULL;
 }
+
+void preordenAux(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
+    tPosicion punteroHijosDeN;
+    tPosicion findeHijosdeN;
+    punteroHijosDeN= l_primera(n->hijos);
+    findeHijosdeN=l_fin(n->hijos);
+    while(punteroHijosDeN!=findeHijosdeN){
+        preordenAux(a, l_recuperar(n->hijos, punteroHijosDeN), fEliminar);
+        punteroHijosDeN=l_siguiente(n->hijos, punteroHijosDeN);
+	}
+	a_eliminar(a, n, fEliminar);
+ }
 /**
  Destruye el �rbol A, eliminando cada uno de sus nodos.
  Los elementos almacenados en el �rbol son eliminados mediante la funci�n fEliminar parametrizada.
@@ -178,7 +163,6 @@ tNodo a_raiz(tArbol a){
 tLista a_hijos(tArbol a, tNodo n){
     return n->hijos;
 }
-
 
 /**
  Inicializa un nuevo �rbol en *SA.
@@ -234,13 +218,6 @@ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa) {
 //     n->padre=NULL;
 //     crear_raiz(*(sa), n->elemento);
 // }
-
-//void a_sub_arbol(tArbol a, tNodo n, tArbol * sa)
-//{
-//    crear_arbol(sa);
-//    crear_raiz((*sa), a_recuperar(a, n));
-//    preorder_cortar(a, n, (*sa)->raiz);
-//}
 
 
 
