@@ -27,7 +27,7 @@
 
 1568501957 c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\lista.h
 
-1570719635 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\main.c
+1571110133 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\main.c
 	"lista.h"
 	"arbol.h"
 	<stdlib.h>
@@ -36,7 +36,7 @@
 1569451811 c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.h
 	"lista.h"
 
-1570719462 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.c
+1571110433 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>

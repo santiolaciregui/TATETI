@@ -59,7 +59,7 @@ void preorden(tArbol a, tNodo root){
 int main(){
     tArbol arbol;
     tArbol sa;
-     crear_arbol(&sa);
+    crear_arbol(&sa);
     crear_arbol(&arbol);
     int r=51;
     crear_raiz(arbol, &r);
@@ -90,6 +90,7 @@ int main(){
 //    a_destruir(&arbol,&fEliminarEnteros);
 //    a_sub_arbol(arbol,aux,&sa);
         printf("paso acaa");
+        a_destruir(&arbol, &fEliminarEnteros);
 //    a_insertar(arbol, arbol->raiz, aux1, &r);
 //    preorden(arbol, arbol->raiz);
 

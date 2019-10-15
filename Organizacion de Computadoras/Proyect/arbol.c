@@ -102,11 +102,12 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
         while(punteroHermanos!=finHermanosN && l_recuperar(HermanosDeN,punteroHermanos)!=n)
             punteroHermanos = l_siguiente(HermanosDeN, punteroHermanos);
         while(corte==0) {
-            l_insertar(HermanosDeN, l_siguiente(HermanosDeN, punteroHermanos),l_recuperar(hijosDeN,punteroHijos));
             if(punteroHijos==l_primera(hijosDeN))
                 corte=1;
-            else
+            else{
+                l_insertar(HermanosDeN, l_siguiente(HermanosDeN, punteroHermanos),l_recuperar(hijosDeN,punteroHijos));
                 punteroHijos=l_anterior(hijosDeN, punteroHijos);
+            }
         }
         l_eliminar(HermanosDeN, punteroHermanos, eliminar_nodo);
     }
