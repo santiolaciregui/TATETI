@@ -49,7 +49,7 @@ void mostrarlista(tLista lista){
 void preorden(tArbol a, tNodo root){
     tPosicion punteroHijosDeN= l_primera(root->hijos);
     tPosicion findeHijosdeN=l_fin(root->hijos);
-    printf("%i \n",*((int*)root->elemento));
+    printf("%i ",*((int*)root->elemento));
     while(punteroHijosDeN!=findeHijosdeN){
         punteroHijosDeN=l_siguiente(root->hijos, punteroHijosDeN);
         preorden(a, punteroHijosDeN->elemento);
@@ -57,9 +57,11 @@ void preorden(tArbol a, tNodo root){
 }
 
 int main(){
+//  -------------------------- TESTER ARBOL -------------------------
+//  -------------------------- TESTER ARBOL -------------------------
+//  -------------------------- TESTER ARBOL -------------------------
+
     tArbol arbol;
-    tArbol sa;
-//    crear_arbol(&sa);
     crear_arbol(&arbol);
     int r1=1;
     int r2= 2;
@@ -67,38 +69,44 @@ int main(){
     int r4= 4;
     int r5= 5;
     crear_raiz(arbol, &r1);
-
-//    printf("raiz %i \n",*((int*)a_recuperar(arbol,a_raiz(arbol))));
+    printf("RAIZ CREADA CON ELEMENTO>%i\n",r1);
     tNodo aux=a_insertar(arbol,arbol->raiz, NULL, &r2);
-    printf("INSERTAR1 \n");
+    printf("INSERTAR1 ELEMENTO>%i\n",r2);
     tNodo aux1=a_insertar(arbol,aux, NULL, &r3);
-    printf("INSERTAR2\n");
+    printf("INSERTAR2 ELEMENTO>%i\n",r3);
     a_insertar(arbol,aux, aux1, &r4);
-    printf("INSERTAR3 \n");
+    printf("INSERTAR3 ELEMENTO>%i\n",r4);
     a_insertar(arbol, aux, NULL, &r5 );
-    printf("INSERTAR4 \n");
-
+    printf("INSERTAR4 ELEMENTO>%i\n",r5);
+    printf("IMPRESION EN PREORDEN: ");
     preorden(arbol, arbol->raiz);
-    printf("Eliminar \n");
-    a_eliminar(arbol,aux1,&fEliminarEnteros);
-    preorden(arbol, arbol->raiz);
-//    printf("Eliminar \n");
-//    a_eliminar(arbol,aux,&fEliminarEnteros);
+    printf("\n");
+//
+//    printf("Eliminar %i\n",r3);
+//    a_eliminar(arbol,aux1,&fEliminarEnteros);
+//    printf("IMPRESION EN PREORDEN: ");
 //    preorden(arbol, arbol->raiz);
-//    printf("Eliminar \n");
+//    printf("Eliminar %i\n",r2);
 //    a_eliminar(arbol,aux,&fEliminarEnteros);
+//    printf("IMPRESION EN PREORDEN: ");
 //    preorden(arbol, arbol->raiz);
 
+//    printf("DESTRUIR ARBOL \n");
 //    a_destruir(&arbol,&fEliminarEnteros);
-//    preorden(arbol, arbol->raiz);
-    printf("\n aguuuuu ");
-    a_sub_arbol(arbol,arbol->raiz,&sa);
-        printf("paso acaa \n");
-//        a_destruir(&arbol, &fEliminarEnteros);
-//        printf("borro \n");
+//    printf("ARBOL DESTRUIDO \n");
+//
+//    printf("SUBARBOL A PARTIR DE 2 \n");
+//    tArbol sa;
+//    a_sub_arbol(arbol,aux,&sa);
+//    printf("IMPRESION EN PREORDEN: ");
+//    preorden(sa, sa->raiz);
+//
+//
 
-//    a_insertar(arbol, arbol->raiz, aux1, &r);
-    preorden(sa, sa->raiz);
+//  -------------------------- TESTER LISTA -------------------------
+//  -------------------------- TESTER LISTA -------------------------
+//  -------------------------- TESTER LISTA -------------------------
+
 
 //    int x;
 //    printf("Elija una opcion:\n");
