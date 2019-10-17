@@ -28,7 +28,6 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
             estado->grilla[i][j] = p->tablero->grilla[i][j];
         }
     }
-
 	// Se asume que el estado de la partida es PART_EN_JUEGO por lo que, la utilidad del estado
 	// inicialmente es IA_NO_TERMINO
     estado->utilidad = IA_NO_TERMINO;
