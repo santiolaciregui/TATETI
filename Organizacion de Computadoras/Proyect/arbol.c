@@ -126,7 +126,9 @@ void preordenAux(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
     tPosicion findeHijosdeN =l_fin(n->hijos);
     while(punteroHijosDeN!=findeHijosdeN){
         preordenAux(a, l_recuperar(n->hijos, punteroHijosDeN), fEliminar);
-        punteroHijosDeN=l_siguiente(n->hijos, punteroHijosDeN);
+        findeHijosdeN =l_fin(n->hijos);
+        if(punteroHijosDeN!=findeHijosdeN)
+            punteroHijosDeN=l_siguiente(n->hijos, punteroHijosDeN);
 	}
 	a_eliminar(a, n, fEliminar);
  }
@@ -169,51 +171,50 @@ tLista a_hijos(tArbol a, tNodo n){
  El nuevo �rbol en *SA se compone de los nodos del sub�rbol de A a partir de N.
  El subarbol de A a partir de N debe ser eliminado de A.
 **/
-void preorder_cortar(tArbol a, tNodo n, tNodo d) {
-    tPosicion puntero = l_primera(n->hijos);
-    while (puntero != l_fin(n->hijos)){
-        tNodo nuevo = (tNodo) malloc(sizeof(struct nodo));
-        if ((nuevo == 0) || (nuevo == NULL))
-            exit(ARB_ERROR_MEMORIA);
-        crear_lista(&(nuevo->hijos));
-        tNodo aux=l_recuperar(n->hijos, puntero);
-        nuevo->elemento = aux->elemento;
-        nuevo->padre = d;
-        l_insertar(d->hijos, l_ultima(d->hijos), nuevo);
-        preorder_cortar(a, l_recuperar(n->hijos, puntero), l_recuperar(d->hijos, l_ultima(d->hijos)));
-        puntero = l_siguiente(n->hijos, puntero);
-    }
-    a_eliminar(a, n, eliminar_nodo);
-}
-void a_sub_arbol(tArbol a, tNodo n, tArbol * sa) {
-    crear_arbol(sa);
-    crear_raiz((*sa), a_recuperar(a, n));
-    preorder_cortar(a, n, (*sa)->raiz);
-}
 
-// void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
-//     tLista hermanosDeN;
-//     tPosicion puntero;
-//     tPosicion finDeHermanos;
-//     int corte;
-//     hermanosDeN=n->padre->hijos;
-//     puntero= l_primera(hermanosDeN);
-//     corte=0;
-//     finDeHermanos = l_fin(hermanosDeN);
-//     while(puntero!=finDeHermanos && corte==0){
-//        if(l_recuperar(hermanosDeN,puntero)==n){
-//            corte=1;
-//            l_eliminar(hermanosDeN, puntero, eliminar_nodo);
-//        }
-//        puntero=l_siguiente(hermanosDeN, puntero);
-//     }
-//      SI NO ENCUENTRO A N EN LA LISTA DE HIJOS DEL PADRE DE N
-//     if(puntero==finDeHermanos)
-//        exit(ARB_POSICION_INVALIDA);
-//     crear_arbol(sa);
-//     n->padre=NULL;
-//     crear_raiz(*(sa), n->elemento);
-// }
+ void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
+     tLista hermanosDeN;
+     tPosicion puntero;
+     tPosicion finDeHermanos;
+     crear_arbol(sa);
+     crear_raiz(*sa, n->elemento);
+     (*sa)->raiz->hijos=n->hijos;
+     if(n!=a->raiz){
+         hermanosDeN=n->padre->hijos;
+         puntero= l_primera(hermanosDeN);
+         finDeHermanos = l_fin(hermanosDeN);
+         while(puntero!=finDeHermanos && l_recuperar(hermanosDeN,puntero)!=n)
+            puntero=l_siguiente(hermanosDeN, puntero);
+         // SI NO ENCUENTRO A N EN LA LISTA DE HIJOS DEL PADRE DE N
+        if(puntero==finDeHermanos)
+            exit(ARB_POSICION_INVALIDA);
+        l_eliminar(hermanosDeN, puntero, eliminar_nodo);
+        n->padre=NULL;
+     }
+ }
 
 
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+//void preorder_cortar(tArbol a, tNodo n, tNodo d) {
+//    tPosicion puntero = l_primera(n->hijos);
+//    while (puntero != l_fin(n->hijos)){
+//        tNodo nuevo = (tNodo) malloc(sizeof(struct nodo));
+//        if ((nuevo == 0) || (nuevo == NULL))
+//            exit(ARB_ERROR_MEMORIA);
+//        crear_lista(&(nuevo->hijos));
+//        tNodo aux=l_recuperar(n->hijos, puntero);
+//        nuevo->elemento = aux->elemento;
+//        nuevo->padre = d;
+//        l_insertar(d->hijos, l_ultima(d->hijos), nuevo);
+//        preorder_cortar(a, l_recuperar(n->hijos, puntero), l_recuperar(d->hijos, l_ultima(d->hijos)));
+//        puntero = l_siguiente(n->hijos, puntero);
+//    }
+//    a_eliminar(a, n, eliminar_nodo);
+//}
+//void a_sub_arbol(tArbol a, tNodo n, tArbol * sa) {
+//    crear_arbol(sa);
+//    crear_raiz((*sa), a_recuperar(a, n));
+//    preorder_cortar(a, n, (*sa)->raiz);
+//}
 
