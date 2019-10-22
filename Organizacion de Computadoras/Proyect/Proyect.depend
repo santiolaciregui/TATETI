@@ -6,7 +6,7 @@
 
 1571195484 c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\lista.h
 
-1571196960 source:c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\main.c
+1571320119 source:c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\main.c
 	"lista.h"
 	"arbol.h"
 	<stdlib.h>
@@ -15,7 +15,7 @@
 1570711742 c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\arbol.h
 	"lista.h"
 
-1571196894 source:c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\arbol.c
+1571320444 source:c:\users\agus\google drive\(2sc) oc - organización de computadoras\+proyecto\tateti\organizacion de computadoras\proyect\arbol.c
 	"arbol.h"
 	<stdio.h>
 	<stdlib.h>
