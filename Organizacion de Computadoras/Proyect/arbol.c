@@ -192,29 +192,3 @@ tLista a_hijos(tArbol a, tNodo n){
         n->padre=NULL;
      }
  }
-
-
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-//void preorder_cortar(tArbol a, tNodo n, tNodo d) {
-//    tPosicion puntero = l_primera(n->hijos);
-//    while (puntero != l_fin(n->hijos)){
-//        tNodo nuevo = (tNodo) malloc(sizeof(struct nodo));
-//        if ((nuevo == 0) || (nuevo == NULL))
-//            exit(ARB_ERROR_MEMORIA);
-//        crear_lista(&(nuevo->hijos));
-//        tNodo aux=l_recuperar(n->hijos, puntero);
-//        nuevo->elemento = aux->elemento;
-//        nuevo->padre = d;
-//        l_insertar(d->hijos, l_ultima(d->hijos), nuevo);
-//        preorder_cortar(a, l_recuperar(n->hijos, puntero), l_recuperar(d->hijos, l_ultima(d->hijos)));
-//        puntero = l_siguiente(n->hijos, puntero);
-//    }
-//    a_eliminar(a, n, eliminar_nodo);
-//}
-//void a_sub_arbol(tArbol a, tNodo n, tArbol * sa) {
-//    crear_arbol(sa);
-//    crear_raiz((*sa), a_recuperar(a, n));
-//    preorder_cortar(a, n, (*sa)->raiz);
-//}
-

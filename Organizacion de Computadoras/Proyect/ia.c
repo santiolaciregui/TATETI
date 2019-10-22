@@ -1,5 +1,4 @@
 #include <stdlib.h>
-
 #include "lista.h"
 #include "arbol.h"
 #include "ia.h"
@@ -46,15 +45,16 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     ejecutar_min_max((*b));
 }
 
-/**
->>>>>  A IMPLEMENTAR   <<<<<
-*/
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
 **/
-void destruir_busqueda_adversaria(tBusquedaAdversaria * b){}
+void destruir_busqueda_adversaria(tBusquedaAdversaria * b){
+    (*b)->jugador_max=-1;
+    (*b)->jugador_min=-1;
+    a_destruir(&(*b)->arbol_busqueda,);
+}
 
 // ===============================================================================================================
 // FUNCIONES Y PROCEDEMIENTOS AUXILIARES
@@ -82,7 +82,9 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 - ALPHA y BETA indican sendos valores correspondientes a los nodos ancestros a N en el �rbol de b�squeda A.
 - JUGADOR_MAX y JUGADOR_MIN indican las fichas con las que juegan los respectivos jugadores.
 **/
-static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){}
+static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
+    if()
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -112,7 +114,15 @@ Inicializa y retorna un nuevo estado que resulta de la clonaci�n del estado E.
 Para esto copia en el estado a retornar los valores actuales de la grilla del estado E, como su valor
 de utilidad.
 **/
-static tEstado clonar_estado(tEstado e){}
+static tEstado clonar_estado(tEstado e){
+    tEstado nuevo=malloc(sizeof(struct estado));
+    int i,j;
+    for(i=0;i<3;i++)
+        for(j=0;j<3;j++)
+         nuevo->grilla[i][j]=e->grilla[i][j];
+    nuevo->utilidad=e->utilidad;
+    return nuevo;
+}
 
 /**
 Computa la diferencia existente entre dos estados.
