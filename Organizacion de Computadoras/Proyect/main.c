@@ -90,11 +90,12 @@ int main(){
 //    a_eliminar(arbol,aux,&fEliminarEnteros);
 //    printf("IMPRESION EN PREORDEN: ");
 //    preorden(arbol, arbol->raiz);
+//    a_eliminar(arbol,arbol->raiz,&fEliminarEnteros);
 
-//    printf("DESTRUIR ARBOL \n");
-//    a_destruir(&arbol,&fEliminarEnteros);
-//    printf("ARBOL DESTRUIDO \n");
-//
+    printf("DESTRUIR ARBOL \n");
+    a_destruir(&arbol,&fEliminarEnteros);
+    printf("ARBOL DESTRUIDO \n");
+
 //    printf("SUBARBOL A PARTIR DE 2 \n");
 //    tArbol sa;
 //    a_sub_arbol(arbol,aux,&sa);
