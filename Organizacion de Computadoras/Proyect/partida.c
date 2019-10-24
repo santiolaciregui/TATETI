@@ -12,6 +12,7 @@ Inicializa una nueva partida, indicando:
 **/
 void nueva_partida(tPartida * p, int modo_partida, int comienza, char * j1_nombre, char * j2_nombre){
     tTablero tablero;
+    int i,j;
     (*p)=malloc(sizeof(struct partida));
     (*p)->modo_partida=modo_partida;
     (*p)->turno_de=comienza;
