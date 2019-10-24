@@ -47,6 +47,7 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
 Finaliza la partida referenciada por P, liberando toda la memoria utilizada.
 **/
 void finalizar_partida(tPartida * p){
-
+    free((*p)->tablero);
+    free(*p);
 }
 

@@ -2,6 +2,7 @@
 #include "lista.h"
 #include "arbol.h"
 #include "ia.h"
+#include "partida.h"
 
 // Prototipos de funciones auxiliares.
 static void ejecutar_min_max(tBusquedaAdversaria b);
@@ -83,7 +84,47 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 - JUGADOR_MAX y JUGADOR_MIN indican las fichas con las que juegan los respectivos jugadores.
 **/
 static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
-    if()
+    tEstado estado;
+    int mejor_valor_sucesores;
+    int valorSucesor;
+    int seguir=1;
+    tLista sucesores;
+    tNodo hijoSucesor;
+    tPosicion pos, posFin;
+
+    estado=(tEstado)a_recuperar(a, n);
+    utilidad_n = valor_utilidad(estado, jugador_max);
+
+    if(utilidad_n==IA_NO_TERMINO){
+        if(es_max==1){
+            mejor_valor_sucesores=IA_INFINITO_NEG;
+            sucesores= estados_sucesores(estado,jugador_max);
+            pos=l_primera(sucesores);
+            posFin=l_fin();
+            while(pos!=posFin && seguir){
+                hijoSucesor=a_insertar(a, n, NULL, l_recuperar(sucesores, pos));
+                l_eliminar(sucesores, pos, )
+                valorSucesor= crear_sucesores_min_max(a, hijoSucesor, 0, alpha, beta, jugador_max, jugador_min);
+                mejor_valor_sucesores= max(mejor_valor_sucesores, valorSucesor)
+                alpha= max(alpha, mejor_valor_sucesores);
+                if(beta<=alpha)
+                    seguir=0;
+            }
+        }else{
+            mejor_valor_sucesores= IA_INFINITO_POS;
+            sucesores= estados_sucesores(estado,jugador_min);
+            pos=l_primera(sucesores);
+            posFin=l_fin();
+            while(pos!=posFin && seguir)
+                valorSucesor= crear_sucesores_min_max(a, pos, 1, alpha, beta, jugador_max, jugador_min);
+                mejor_valor_sucesores= min(mejor_valor_sucesores, valorSucesor)
+                beta= min(alpha, mejor_valor_sucesores);
+                if(beta<=alpha)
+                    seguir=0;
+        }
+        utilidad_n = mejor_valor_sucesores;
+    }
+    estado->utilidad = utilidad_n;
 }
 
 /**
@@ -94,7 +135,9 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_PIERDE_MAX si el estado E refleja una jugada en el que el JUGADOR_MAX perdi� la partida.
 - IA_NO_TERMINO en caso contrario.
 **/
-static int valor_utilidad(tEstado e, int jugador_max){}
+static int valor_utilidad(tEstado e, int jugador_max){
+
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -106,7 +149,27 @@ estados_sucesores(estado, ficha) retornar�a dos listas L1 y L2 tal que:
 - L1 y L2 tienen exactamente los mismos estados sucesores de ESTADO a partir de jugar FICHA.
 - El orden de los estado en L1 posiblemente sea diferente al orden de los estados en L2.
 **/
-static tLista estados_sucesores(tEstado e, int ficha_jugador){}
+
+tPosicion posicionAleatoria(tLista lista){
+    tPosicion toReturn;
+    rand();
+}
+static tLista estados_sucesores(tEstado e, int ficha_jugador){
+    tLista lista;
+    int i,j;
+    tEstado clone;
+
+    crear_lista(&lista);
+    for(i=0;i<3;i++){
+        for(j=0;j<3;j++){
+            if(e->grilla[i][j]==PART_SIN_MOVIMIENTO){
+                clone=clonar_estado(e);
+                clone->grilla[i][j]=ficha_jugador;
+                l_insertar(lista, l_primera(lista))
+            }
+        }
+    }
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
