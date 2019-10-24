@@ -1,6 +1,7 @@
 #include "arbol.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 void eliminar_nodo(void* e) {}
 
 /**
@@ -121,23 +122,18 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
     n=NULL;
 }
 
-void preordenAux(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
-    tPosicion punteroHijosDeN = l_primera(n->hijos);
-    tPosicion findeHijosdeN =l_fin(n->hijos);
-    while(punteroHijosDeN!=findeHijosdeN){
-        preordenAux(a, l_recuperar(n->hijos, punteroHijosDeN), fEliminar);
-        findeHijosdeN =l_fin(n->hijos);
-        if(punteroHijosDeN!=findeHijosdeN)
-            punteroHijosDeN=l_siguiente(n->hijos, punteroHijosDeN);
-	}
-	a_eliminar(a, n, fEliminar);
- }
 /**
  Destruye el �rbol A, eliminando cada uno de sus nodos.
  Los elementos almacenados en el �rbol son eliminados mediante la funci�n fEliminar parametrizada.
 **/
+void posOrdenAux(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
+    tPosicion punteroHijosDeN = l_primera(n->hijos);
+    while(punteroHijosDeN!=l_fin(n->hijos))
+        posOrdenAux(a, l_recuperar(n->hijos, punteroHijosDeN), fEliminar);
+	a_eliminar(a, n, fEliminar);
+ }
  void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
-    preordenAux(*a,(*a)->raiz, fEliminar);
+    posOrdenAux(*a,(*a)->raiz, fEliminar);
     (*a)->raiz = NULL;
     free(*a);
     (*a) = NULL;
@@ -171,7 +167,6 @@ tLista a_hijos(tArbol a, tNodo n){
  El nuevo �rbol en *SA se compone de los nodos del sub�rbol de A a partir de N.
  El subarbol de A a partir de N debe ser eliminado de A.
 **/
-
  void a_sub_arbol(tArbol a, tNodo n, tArbol * sa){
      tLista hermanosDeN;
      tPosicion puntero;
