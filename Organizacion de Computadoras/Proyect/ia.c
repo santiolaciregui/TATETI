@@ -45,8 +45,12 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     // Ejecuta algoritmo Min-Max con podas Alpha-Beta.
     ejecutar_min_max((*b));
 }
-
-void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){}
+/**
+>>>>>  A IMPLEMENTAR   <<<<<
+**/
+void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
+    b->
+}
 
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
@@ -54,7 +58,7 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){}
 void destruir_busqueda_adversaria(tBusquedaAdversaria * b){
     (*b)->jugador_max=-1;
     (*b)->jugador_min=-1;
-    a_destruir(&(*b)->arbol_busqueda,);
+    a_destruir(&(*b)->arbol_busqueda, eliminarEstado);
 }
 
 // ===============================================================================================================
@@ -103,7 +107,7 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             posFin=l_fin();
             while(pos!=posFin && seguir){
                 hijoSucesor=a_insertar(a, n, NULL, l_recuperar(sucesores, pos));
-                l_eliminar(sucesores, pos, )
+                l_eliminar(sucesores, pos,noEliminaEstado);
                 valorSucesor= crear_sucesores_min_max(a, hijoSucesor, 0, alpha, beta, jugador_max, jugador_min);
                 mejor_valor_sucesores= max(mejor_valor_sucesores, valorSucesor)
                 alpha= max(alpha, mejor_valor_sucesores);
@@ -127,6 +131,22 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     estado->utilidad = utilidad_n;
 }
 
+tPosicion posicionAleatoria(tLista lista){
+    tPosicion toReturn;
+
+    toReturn=null;
+    int numero= rand()%3;
+    if(numero==0){
+        toReturn=l_primera(lista);
+        else
+            if(numero==1)
+                toReturn=l_ultima(lista);
+            else
+                if(numero==2)
+                    toReturn=l_fin(lista);
+    }
+    return toReturn;
+}
 /**
 >>>>>  A IMPLEMENTAR   <<<<<
 Computa el valor de utilidad correspondiente al estado E, y la ficha correspondiente al JUGADOR_MAX, retornado:
@@ -136,7 +156,6 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_NO_TERMINO en caso contrario.
 **/
 static int valor_utilidad(tEstado e, int jugador_max){
-
 }
 
 /**
@@ -150,10 +169,7 @@ estados_sucesores(estado, ficha) retornar�a dos listas L1 y L2 tal que:
 - El orden de los estado en L1 posiblemente sea diferente al orden de los estados en L2.
 **/
 
-tPosicion posicionAleatoria(tLista lista){
-    tPosicion toReturn;
-    rand();
-}
+
 static tLista estados_sucesores(tEstado e, int ficha_jugador){
     tLista lista;
     int i,j;
@@ -165,7 +181,7 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
             if(e->grilla[i][j]==PART_SIN_MOVIMIENTO){
                 clone=clonar_estado(e);
                 clone->grilla[i][j]=ficha_jugador;
-                l_insertar(lista, l_primera(lista))
+                l_insertar(lista, posicionAleatoria(lista));
             }
         }
     }
@@ -203,4 +219,10 @@ static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y
             }
         }
     }
+}
+
+
+void noEliminaEstado(tEstado e){    }
+void eliminarEstado(tEstado e){
+    free(e);
 }
