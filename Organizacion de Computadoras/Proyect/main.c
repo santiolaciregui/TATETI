@@ -21,6 +21,15 @@
 #define PART_EMPATE                         112
 
 #define PART_ERROR_MEMORIA                  113
+
+void mostrarMatriz(char[][] matriz) {
+    for (int i = 0; i < matriz.length; i++) {
+        for (int j = 0; j < matriz[0].length; j++) {
+            printf(matriz[i][j] + " ");
+        }
+        printf("");
+    }
+}
 int main(){
     tPartida p;
     int modoPartida;
