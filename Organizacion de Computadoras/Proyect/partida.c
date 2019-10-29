@@ -39,6 +39,7 @@ int nuevo_movimiento(tPartida p, int mov_x, int mov_y){
     else{
         (p->tablero)->grilla[mov_x][mov_y]=p->turno_de;
         toReturn=PART_MOVIMIENTO_OK;
+
     }
     return toReturn;
 }

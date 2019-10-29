@@ -12,6 +12,31 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador);
 static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y);
 static tEstado clonar_estado(tEstado e);
 
+void noEliminaEstado(void *e){    }
+
+void eliminarEstado(void *e){
+    tEstado estado= (tEstado) e;
+    free(estado);
+}
+
+int max(int num1, int num2) {
+   int result;
+   if (num1 > num2)
+      result = num1;
+   else
+      result = num2;
+   return result;
+}
+
+
+int min(int num1, int num2) {
+   int result;
+   if (num1 > num2)
+      result = num2;
+   else
+      result = num1;
+   return result;
+}
 void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     int i, j;
     tEstado estado;
@@ -46,10 +71,30 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     ejecutar_min_max((*b));
 }
 /**
->>>>>  A IMPLEMENTAR   <<<<<
+ Computa y retorna el pr�ximo movimiento a realizar por el jugador MAX.
+ Para esto, se tiene en cuenta el �rbol creado por el algoritmo de b�squeda adversaria Min-max con podas Alpha-Beta.
+ Siempre que sea posible, se indicar� un movimiento que permita que MAX gane la partida.
+ Si no existe un movimiento ganador para MAX, se indicar� un movimiento que permita que MAX empate la partida.
+ En caso contrario, se indicar� un movimiento que lleva a MAX a perder la partida.
 **/
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
-    b->
+    tArbol arbol;
+    tNodo raiz;
+    tLista hijosRaiz;
+    tPosicion pos;
+    tPosicion posFin;
+
+    arbol=b->arbol_busqueda;
+    raiz=a_raiz(arbol);
+    hijosRaiz= a_hijos(arbol, raiz);
+    pos=l_primera(hijosRaiz);
+    posFin= l_fin(hijosRaiz);
+
+    while(pos!=posFin){
+
+    }
+
+
 }
 
 /**
@@ -58,7 +103,7 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
 void destruir_busqueda_adversaria(tBusquedaAdversaria * b){
     (*b)->jugador_max=-1;
     (*b)->jugador_min=-1;
-    a_destruir(&(*b)->arbol_busqueda, eliminarEstado);
+    a_destruir(&((*b)->arbol_busqueda), &eliminarEstado);
 }
 
 // ===============================================================================================================
@@ -91,11 +136,14 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
     tEstado estado;
     int mejor_valor_sucesores;
     int valorSucesor;
-    int seguir=1;
+    int seguir;
+    int utilidad_n;
     tLista sucesores;
     tNodo hijoSucesor;
     tPosicion pos, posFin;
 
+    seguir=1;
+    valorSucesor=0;
     estado=(tEstado)a_recuperar(a, n);
     utilidad_n = valor_utilidad(estado, jugador_max);
 
@@ -104,12 +152,12 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             mejor_valor_sucesores=IA_INFINITO_NEG;
             sucesores= estados_sucesores(estado,jugador_max);
             pos=l_primera(sucesores);
-            posFin=l_fin();
+            posFin=l_fin(sucesores);
             while(pos!=posFin && seguir){
                 hijoSucesor=a_insertar(a, n, NULL, l_recuperar(sucesores, pos));
-                l_eliminar(sucesores, pos,noEliminaEstado);
-                valorSucesor= crear_sucesores_min_max(a, hijoSucesor, 0, alpha, beta, jugador_max, jugador_min);
-                mejor_valor_sucesores= max(mejor_valor_sucesores, valorSucesor)
+                l_eliminar(sucesores, pos,&noEliminaEstado);
+                crear_sucesores_min_max(a, hijoSucesor, 0, alpha, beta, jugador_max, jugador_min);
+                mejor_valor_sucesores= max(mejor_valor_sucesores, valorSucesor);
                 alpha= max(alpha, mejor_valor_sucesores);
                 if(beta<=alpha)
                     seguir=0;
@@ -118,13 +166,16 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             mejor_valor_sucesores= IA_INFINITO_POS;
             sucesores= estados_sucesores(estado,jugador_min);
             pos=l_primera(sucesores);
-            posFin=l_fin();
-            while(pos!=posFin && seguir)
-                valorSucesor= crear_sucesores_min_max(a, pos, 1, alpha, beta, jugador_max, jugador_min);
-                mejor_valor_sucesores= min(mejor_valor_sucesores, valorSucesor)
+            posFin=l_fin(sucesores);
+            while(pos!=posFin && seguir){
+                hijoSucesor=a_insertar(a, n, NULL, l_recuperar(sucesores, pos));
+                l_eliminar(sucesores, pos,&noEliminaEstado);
+                crear_sucesores_min_max(a, hijoSucesor, 1, alpha, beta, jugador_max, jugador_min);
+                mejor_valor_sucesores= min(mejor_valor_sucesores, valorSucesor);
                 beta= min(alpha, mejor_valor_sucesores);
                 if(beta<=alpha)
                     seguir=0;
+            }
         }
         utilidad_n = mejor_valor_sucesores;
     }
@@ -134,9 +185,9 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
 tPosicion posicionAleatoria(tLista lista){
     tPosicion toReturn;
 
-    toReturn=null;
+    toReturn=NULL;
     int numero= rand()%3;
-    if(numero==0){
+    if(numero==0)
         toReturn=l_primera(lista);
         else
             if(numero==1)
@@ -144,7 +195,6 @@ tPosicion posicionAleatoria(tLista lista){
             else
                 if(numero==2)
                     toReturn=l_fin(lista);
-    }
     return toReturn;
 }
 /**
@@ -156,6 +206,7 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_NO_TERMINO en caso contrario.
 **/
 static int valor_utilidad(tEstado e, int jugador_max){
+    return 0;
 }
 
 /**
@@ -181,10 +232,11 @@ static tLista estados_sucesores(tEstado e, int ficha_jugador){
             if(e->grilla[i][j]==PART_SIN_MOVIMIENTO){
                 clone=clonar_estado(e);
                 clone->grilla[i][j]=ficha_jugador;
-                l_insertar(lista, posicionAleatoria(lista));
+                l_insertar(lista, posicionAleatoria(lista), clone);
             }
         }
     }
+    return lista;
 }
 
 /**
@@ -222,7 +274,4 @@ static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y
 }
 
 
-void noEliminaEstado(tEstado e){    }
-void eliminarEstado(tEstado e){
-    free(e);
-}
+

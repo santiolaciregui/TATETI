@@ -22,37 +22,54 @@
 
 #define PART_ERROR_MEMORIA                  113
 
-void mostrarMatriz(char[][] matriz) {
-    for (int i = 0; i < matriz.length; i++) {
-        for (int j = 0; j < matriz[0].length; j++) {
-            printf(matriz[i][j] + " ");
+void mostrarMatriz(tPartida p) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            printf(p->tablero->grilla[i][j] + " ");
         }
-        printf("");
+        printf(" ");
     }
 }
+
 int main(){
     tPartida p;
     int modoPartida;
     int comienza;
-    char[50];
-    printf("Como quiere jugar la partida?: 103=PART_MODO_USUARIO_VS_USUARIO o 104=PART_MODO_USUARIO_VS_AGENTE_IA");
-    scanf("%i", modoPartida);
-    if(modoPartida!=PART_MODO_USUARIO_VS_USUARIO || modoPartida!=PART_MODO_USUARIO_VS_AGENTE_IA){
+    int x;
+    int y;
+    char nombreJ1[51];
+    char nombreJ2[51];
+    printf("Como quiere jugar la partida? 103=Usuario vs Usuario o 104=Usuario vs Computadora: ");
+    scanf("%i", &modoPartida);
+    if(modoPartida!= PART_MODO_USUARIO_VS_USUARIO && modoPartida!= PART_MODO_USUARIO_VS_AGENTE_IA){
         printf("Modo incorrecto. Elija alguno de los mencionados anteriormente: ");
-        scanf("%i", modoPartida);
+        scanf("%i", &modoPartida);
     }
 
-    printf("Quien va a iniciar jugando la partida?: 100=PART_JUGADOR_1, 101=PART_JUGADOR_2 o 102=PART_JUGADOR_RANDOM");
-    scanf("%i", comienza);
-    if(comienza!=PART_JUGADOR_1 || comienza!=PART_JUGADOR_2 || comienza!= PART_JUGADOR_RANDOM){
+    printf("Quien va a iniciar jugando la partida? 100=Jugador1, 101=Jugador2 o 102=Al azar: ");
+    scanf("%i", &comienza);
+    if(comienza!=PART_JUGADOR_1 && comienza!=PART_JUGADOR_2 && comienza!= PART_JUGADOR_RANDOM){
         printf("Eleccion incorrecta. Elija alguno de los mencionados anteriormente: ");
-        scanf("%i", comienza);
+        scanf("%i", &comienza);
     }
 
     printf("Como se llamara el Jugador 1: ");
+    scanf("%s",nombreJ1);
     printf("Como se llamara el Jugador 2: ");
+    scanf("%s",nombreJ2);
+    nueva_partida(&p,modoPartida,comienza,nombreJ1,nombreJ2);
+    printf("%s", p->nombre_jugador_1);
+    while(p->estado==PART_EN_JUEGO){
+        printf("Donde desea jugar?: ");
+        scanf("%i : %i", &x, &y);
+        if(x<1 || x>3 || y<1 || y>3)
+            printf("Movimiento Incorrecto. Vuelva a elegir de forma correcta donde jugar(por ej, 1:3): ");
+        else
+            nuevo_movimiento(p, x, y);
+            mostrarMatriz(p);
+    }
 
-    nueva_partida(&p,)
+
 
 return 0;
 }
