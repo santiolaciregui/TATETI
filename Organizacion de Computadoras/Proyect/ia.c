@@ -93,8 +93,6 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
     while(pos!=posFin){
 
     }
-
-
 }
 
 /**
@@ -205,8 +203,50 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_PIERDE_MAX si el estado E refleja una jugada en el que el JUGADOR_MAX perdi� la partida.
 - IA_NO_TERMINO en caso contrario.
 **/
-static int valor_utilidad(tEstado e, int jugador_max){
-    return 0;
+    static int valor_utilidad(tEstado e, int jugador_max){
+    int ficha, i, j;
+    if(e->grilla[0][0]!=PART_SIN_MOVIMIENTO) {
+        if(e->grilla[0][0]==e->grilla[0][1] && e->grilla[0][0] == e->grilla[0][2])
+                    ficha= e->grilla[0][0];
+        else
+           if(e->grilla[0][0]==e->grilla[1][0] && e->grilla[1][0]==e->grilla[2][0])
+                    ficha= e->grilla [0][0];
+            else
+                if(e->grilla[1][1]==e->grilla[0][0] && e->grilla[2][2]==e->grilla[0][0])
+                    ficha= e->grilla[0][0];
+    }
+    else
+        if(e->grilla[1][1]!=PART_SIN_MOVIMIENTO) {
+            if(e->grilla[1][1]==e->grilla[0][1] && e->grilla[1][1]==e->grilla[2][1])
+                ficha= e->grilla[1][1];
+            else
+                if(e->grilla[1][1]==e->grilla[1][0] && e->grilla[1][1]==e->grilla[1][2])
+                    ficha = e->grilla[1][1];
+                else
+                    if(e->grilla[1][1]==e->grilla[0][2] && e->grilla[1][1]==e->grilla[2][0])
+                        ficha= e->grilla [1][1];
+        }
+        else
+            if(e->grilla[2][2]!=PART_SIN_MOVIMIENTO) {
+                if(e->grilla[2][2]==e->grilla[2][1] && e->grilla[2][2]==e->grilla[2][0])
+                    ficha= e->grilla[2][2];
+                else
+                    if(e->grilla[2][2]==e->grilla[1][2] && e->grilla[2][2]==e->grilla[0][2])
+                        ficha= e->grilla[2][2];
+                    else
+                        return IA_EMPATA_MAX;
+            }
+            else {
+                for(i=0; i<3; i++)
+                    for(j=0; j<3; j++)
+                        if(e->grilla[i][j]==PART_SIN_MOVIMIENTO)
+                            return IA_NO_TERMINO;
+                return IA_EMPATA_MAX;
+            }
+        if(ficha==jugador_max)
+            return IA_GANA_MAX;
+        else
+            return IA_PIERDE_MAX;
 }
 
 /**
