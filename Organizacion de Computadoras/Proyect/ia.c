@@ -204,7 +204,8 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_NO_TERMINO en caso contrario.
 **/
     static int valor_utilidad(tEstado e, int jugador_max){
-    int ficha, i, j;
+    int ficha = -3;
+    int i, j;
     if(e->grilla[0][0]!=PART_SIN_MOVIMIENTO) {
         if(e->grilla[0][0]==e->grilla[0][1] && e->grilla[0][0] == e->grilla[0][2])
                     ficha= e->grilla[0][0];
@@ -233,16 +234,15 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
                 else
                     if(e->grilla[2][2]==e->grilla[1][2] && e->grilla[2][2]==e->grilla[0][2])
                         ficha= e->grilla[2][2];
-                    else
-                        return IA_EMPATA_MAX;
             }
-            else {
-                for(i=0; i<3; i++)
+    if(ficha == -3) {
+       for(i=0; i<3; i++)
                     for(j=0; j<3; j++)
                         if(e->grilla[i][j]==PART_SIN_MOVIMIENTO)
                             return IA_NO_TERMINO;
                 return IA_EMPATA_MAX;
-            }
+    }
+    else
         if(ficha==jugador_max)
             return IA_GANA_MAX;
         else
