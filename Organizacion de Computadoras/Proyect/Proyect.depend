@@ -28,22 +28,25 @@
 
 1571321342 c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\lista.h
 
-1572360299 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\main.c
+1572539057 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\main.c
 	"lista.h"
 	"arbol.h"
 	"partida.h"
+	"ia.h"
 	<stdlib.h>
 	<stdio.h>
+	<string.h>
 
 1569451811 c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.h
 	"lista.h"
 
-1571938883 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.c
+1572537858 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\arbol.c
 	"arbol.h"
+	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 
-1572357549 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\ia.c
+1572534301 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\ia.c
 	<stdlib.h>
 	"lista.h"
 	"arbol.h"
@@ -56,7 +59,7 @@
 
 1571191398 c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\partida.h
 
-1572360200 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\partida.c
+1572537548 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\partida.c
 	"partida.h"
 	<stdio.h>
 	<stdlib.h>
