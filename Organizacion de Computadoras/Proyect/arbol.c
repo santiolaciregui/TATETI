@@ -1,8 +1,9 @@
 #include "arbol.h"
+#include "lista.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void eliminar_nodo(void* e) {}
+void eliminar_nodo(void* e) {   }
 
 /**
 Inicializa un �rbol vac�o.
@@ -123,15 +124,20 @@ Si A no es vac�o, finaliza indicando ARB_OPERACION_INVALIDA.
 }
 
 /**
- Destruye el �rbol A, eliminando cada uno de sus nodos.
- Los elementos almacenados en el �rbol son eliminados mediante la funci�n fEliminar parametrizada.
+Recorrido pre-orden para eliminar los nodos del arbol
 **/
 void posOrdenAux(tArbol a, tNodo n, void (*fEliminar)(tElemento)){
     tPosicion punteroHijosDeN = l_primera(n->hijos);
-    while(punteroHijosDeN!=l_fin(n->hijos))
+    while(punteroHijosDeN!=l_fin(n->hijos)){
         posOrdenAux(a, l_recuperar(n->hijos, punteroHijosDeN), fEliminar);
+    }
 	a_eliminar(a, n, fEliminar);
  }
+
+ /**
+ Destruye el �rbol A, eliminando cada uno de sus nodos.
+ Los elementos almacenados en el �rbol son eliminados mediante la funci�n fEliminar parametrizada.
+**/
  void a_destruir(tArbol * a, void (*fEliminar)(tElemento)){
     posOrdenAux(*a,(*a)->raiz, fEliminar);
     (*a)->raiz = NULL;

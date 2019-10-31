@@ -11,13 +11,20 @@ static int valor_utilidad(tEstado e, int jugador_max);
 static tLista estados_sucesores(tEstado e, int ficha_jugador);
 static void diferencia_estados(tEstado anterior, tEstado nuevo, int * x, int * y);
 static tEstado clonar_estado(tEstado e);
-
+/**
+Funcion para utilizar en funcion eliminar de arbol o lista, pero que en realidad no modifica ni libera el espacio en memoria del elemento(estado)
+**/
 void noEliminaEstado(void *e){    }
-
+/**
+Funcion para utilizar en funcion eliminar de arbol o lista, liberando el espacio en memoria del elemento(estado)
+**/
 void eliminarEstado(void *e){
     tEstado estado= (tEstado) e;
     free(estado);
 }
+/**
+Devuelve el valor maximo del numero mas grande entre num1 y num2
+**/
 
 int max(int num1, int num2) {
    int result;
@@ -28,7 +35,9 @@ int max(int num1, int num2) {
    return result;
 }
 
-
+/**
+Devuelve el valor minimo del numero mas grande entre num1 y num2
+**/
 int min(int num1, int num2) {
    int result;
    if (num1 > num2)
@@ -37,6 +46,8 @@ int min(int num1, int num2) {
       result = num1;
    return result;
 }
+
+
 void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
     int i, j;
     tEstado estado;
@@ -80,6 +91,7 @@ void crear_busqueda_adversaria(tBusquedaAdversaria * b, tPartida p){
 void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
     tArbol arbol;
     tNodo raiz;
+    tEstado eactual;
     tLista hijosRaiz;
     tPosicion pos;
     tPosicion posFin;
@@ -87,12 +99,26 @@ void proximo_movimiento(tBusquedaAdversaria b, int * x, int * y){
     arbol=b->arbol_busqueda;
     raiz=a_raiz(arbol);
     hijosRaiz= a_hijos(arbol, raiz);
+
     pos=l_primera(hijosRaiz);
     posFin= l_fin(hijosRaiz);
 
-    while(pos!=posFin){
+    eactual= a_recuperar(arbol, raiz);
+    int utilidad=eactual->utilidad;
 
+    tNodo naux;
+    tEstado eaux;
+    int corte=0;
+    int valoraux;
+
+    while(pos!=posFin && !corte){
+        naux= (tNodo) l_recuperar(hijosRaiz, pos);
+        eaux= (tEstado)a_recuperar(arbol, naux);
+        valoraux=eaux->utilidad;
+        corte=valoraux==utilidad;
+        pos= l_siguiente(hijosRaiz, pos);
     }
+    diferencia_estados(eactual, eaux, x,y);
 }
 
 /**
@@ -117,7 +143,6 @@ static void ejecutar_min_max(tBusquedaAdversaria b){
     tNodo r = a_raiz(a);
     int jugador_max = b->jugador_max;
     int jugador_min = b->jugador_min;
-
     crear_sucesores_min_max(a, r, 1, IA_INFINITO_NEG, IA_INFINITO_POS, jugador_max, jugador_min);
 }
 
@@ -132,13 +157,14 @@ Implementa la estrategia del algoritmo Min-Max con podas Alpha-Beta, a partir de
 **/
 static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, int beta, int jugador_max, int jugador_min){
     tEstado estado;
+    tEstado estadoSucesor;
     int mejor_valor_sucesores;
     int valorSucesor;
     int seguir;
     int utilidad_n;
     tLista sucesores;
     tNodo hijoSucesor;
-    tPosicion pos, posFin;
+    tPosicion pos;
 
     seguir=1;
     valorSucesor=0;
@@ -150,11 +176,12 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             mejor_valor_sucesores=IA_INFINITO_NEG;
             sucesores= estados_sucesores(estado,jugador_max);
             pos=l_primera(sucesores);
-            posFin=l_fin(sucesores);
-            while(pos!=posFin && seguir){
-                hijoSucesor=a_insertar(a, n, NULL, l_recuperar(sucesores, pos));
+            while(pos!=l_fin(sucesores) && seguir){
+                estadoSucesor= (tEstado)l_recuperar(sucesores, pos);
+                hijoSucesor=a_insertar(a, n, NULL, estadoSucesor);
                 l_eliminar(sucesores, pos,&noEliminaEstado);
-                crear_sucesores_min_max(a, hijoSucesor, 0, alpha, beta, jugador_max, jugador_min);
+                crear_sucesores_min_max(a, hijoSucesor, !es_max, alpha, beta, jugador_max, jugador_min);
+                valorSucesor=estadoSucesor->utilidad;
                 mejor_valor_sucesores= max(mejor_valor_sucesores, valorSucesor);
                 alpha= max(alpha, mejor_valor_sucesores);
                 if(beta<=alpha)
@@ -164,22 +191,28 @@ static void crear_sucesores_min_max(tArbol a, tNodo n, int es_max, int alpha, in
             mejor_valor_sucesores= IA_INFINITO_POS;
             sucesores= estados_sucesores(estado,jugador_min);
             pos=l_primera(sucesores);
-            posFin=l_fin(sucesores);
-            while(pos!=posFin && seguir){
-                hijoSucesor=a_insertar(a, n, NULL, l_recuperar(sucesores, pos));
+            while(pos!=l_fin(sucesores) && seguir){
+                estadoSucesor= (tEstado)l_recuperar(sucesores, pos);
+                hijoSucesor=a_insertar(a, n, NULL, estadoSucesor);
                 l_eliminar(sucesores, pos,&noEliminaEstado);
-                crear_sucesores_min_max(a, hijoSucesor, 1, alpha, beta, jugador_max, jugador_min);
+                crear_sucesores_min_max(a, hijoSucesor, !es_max, alpha, beta, jugador_max, jugador_min);
+                valorSucesor=estadoSucesor->utilidad;
                 mejor_valor_sucesores= min(mejor_valor_sucesores, valorSucesor);
-                beta= min(alpha, mejor_valor_sucesores);
+                beta= min(beta, mejor_valor_sucesores);
                 if(beta<=alpha)
                     seguir=0;
             }
         }
+        l_destruir(&sucesores,&eliminarEstado);
         utilidad_n = mejor_valor_sucesores;
     }
     estado->utilidad = utilidad_n;
+
 }
 
+/**
+Devuelve una posicion de la lista de forma aleatoria, puede ser l_primera(l), l_ultima(l) o l_fin(l)
+**/
 tPosicion posicionAleatoria(tLista lista){
     tPosicion toReturn;
 
@@ -203,21 +236,21 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
 - IA_PIERDE_MAX si el estado E refleja una jugada en el que el JUGADOR_MAX perdi� la partida.
 - IA_NO_TERMINO en caso contrario.
 **/
-    static int valor_utilidad(tEstado e, int jugador_max){
+static int valor_utilidad(tEstado e, int jugador_max){
     int ficha = -3;
     int i, j;
-    if(e->grilla[0][0]!=PART_SIN_MOVIMIENTO) {
+     if(e->grilla[0][0]!=PART_SIN_MOVIMIENTO){
         if(e->grilla[0][0]==e->grilla[0][1] && e->grilla[0][0] == e->grilla[0][2])
                     ficha= e->grilla[0][0];
         else
-           if(e->grilla[0][0]==e->grilla[1][0] && e->grilla[1][0]==e->grilla[2][0])
+           if(e->grilla[0][0]==e->grilla[1][0] && e->grilla[0][0]==e->grilla[2][0])
                     ficha= e->grilla [0][0];
             else
                 if(e->grilla[1][1]==e->grilla[0][0] && e->grilla[2][2]==e->grilla[0][0])
                     ficha= e->grilla[0][0];
     }
-    else
-        if(e->grilla[1][1]!=PART_SIN_MOVIMIENTO) {
+    if(ficha==-3) {
+        if(e->grilla[1][1]!=PART_SIN_MOVIMIENTO){
             if(e->grilla[1][1]==e->grilla[0][1] && e->grilla[1][1]==e->grilla[2][1])
                 ficha= e->grilla[1][1];
             else
@@ -227,14 +260,17 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
                     if(e->grilla[1][1]==e->grilla[0][2] && e->grilla[1][1]==e->grilla[2][0])
                         ficha= e->grilla [1][1];
         }
-        else
-            if(e->grilla[2][2]!=PART_SIN_MOVIMIENTO) {
-                if(e->grilla[2][2]==e->grilla[2][1] && e->grilla[2][2]==e->grilla[2][0])
+    }
+    if(ficha==-3) {
+        if(e->grilla[2][2]!=PART_SIN_MOVIMIENTO) {
+            if(e->grilla[2][2]==e->grilla[2][1] && e->grilla[2][2]==e->grilla[2][0])
+                ficha= e->grilla[2][2];
+            else
+                if(e->grilla[2][2]==e->grilla[1][2] && e->grilla[2][2]==e->grilla[0][2])
                     ficha= e->grilla[2][2];
-                else
-                    if(e->grilla[2][2]==e->grilla[1][2] && e->grilla[2][2]==e->grilla[0][2])
-                        ficha= e->grilla[2][2];
-            }
+        }
+    }
+
     if(ficha == -3) {
        for(i=0; i<3; i++)
                     for(j=0; j<3; j++)
@@ -243,8 +279,9 @@ Computa el valor de utilidad correspondiente al estado E, y la ficha correspondi
                 return IA_EMPATA_MAX;
     }
     else
-        if(ficha==jugador_max)
+        if(ficha==jugador_max){
             return IA_GANA_MAX;
+        }
         else
             return IA_PIERDE_MAX;
 }
