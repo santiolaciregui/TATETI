@@ -21,14 +21,14 @@
 	<stdio.h>
 	<stdlib.h>
 
-1571322707 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\lista.c
+1572563912 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\lista.c
 	"lista.h"
 	<stdio.h>
 	<stdlib.h>
 
 1571321342 c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\lista.h
 
-1572539057 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\main.c
+1572539184 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\main.c
 	"lista.h"
 	"arbol.h"
 	"partida.h"
@@ -46,7 +46,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1572534301 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\ia.c
+1572563301 source:c:\users\santi\documents\github\tateti\organizacion de computadoras\proyect\ia.c
 	<stdlib.h>
 	"lista.h"
 	"arbol.h"

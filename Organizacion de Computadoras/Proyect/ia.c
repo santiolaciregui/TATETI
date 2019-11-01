@@ -25,7 +25,6 @@ void eliminarEstado(void *e){
 /**
 Devuelve el valor maximo del numero mas grande entre num1 y num2
 **/
-
 int max(int num1, int num2) {
    int result;
    if (num1 > num2)
@@ -296,8 +295,6 @@ estados_sucesores(estado, ficha) retornar�a dos listas L1 y L2 tal que:
 - L1 y L2 tienen exactamente los mismos estados sucesores de ESTADO a partir de jugar FICHA.
 - El orden de los estado en L1 posiblemente sea diferente al orden de los estados en L2.
 **/
-
-
 static tLista estados_sucesores(tEstado e, int ficha_jugador){
     tLista lista;
     int i,j;
